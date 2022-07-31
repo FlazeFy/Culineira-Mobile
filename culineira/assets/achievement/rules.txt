@@ -1,0 +1,16 @@
+Achievement Rules
+
+=======================================================================================================================
+	File Name    ||   			Requirement							||  	Achievement Name
+=======================================================================================================================
+    achievement-1  ||	Get first like in your recipe							||  Good start!
+    achievement-2  ||	Have 50 Followers									||  You are Rockstar!
+    achievement-3  ||	Have your recipes on the top list						||  Are you a chef?
+    achievement-4  ||	Have first drinkable recipe							||  I'm thirsty
+    achievement-5  ||	Have won competition								||  Master Chef
+    achievement-6  ||	Have first recipe that doesnt have meet in ingredients		||  Vegan Friendly
+    achievement-7  ||	Have first desserts recipe							||  Snack Time
+    achievement-8  ||	Have first recipe that have fruit in ingredients			||  Healthy First
+    achievement-9  ||	Have 5 recipes									||  Food Enthusiast
+    achievement-10 ||	Have first recipe that have time spend cooking less than 15 min	||  Easy peasy lemon squeezy
+    achievement-11 ||	Have first recipe that have time spend cooking more than 60 min	||  What kind of food is this?
