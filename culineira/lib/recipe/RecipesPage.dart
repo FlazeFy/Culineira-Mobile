@@ -118,30 +118,57 @@ class _RecipesPageState extends State<RecipesPage> {
                             onTap: (){
                               //
                             },
-                            child: Column(
-                              children:[
+                            child: Stack(
+                              children: [
+                                Column(
+                                  children:[
+                                    Container(
+                                      height: 70,
+                                      width: 70,
+                                      margin: const EdgeInsets.only(bottom:5, left: 10),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                        border: Border.all(
+                                          color: primaryColor,
+                                          width: 3,
+                                        ),
+                                        color: primaryColor,
+                                      ),
+                                      child: ClipOval(
+                                        child: SizedBox.fromSize(
+                                          size: const Size.fromRadius(18),
+                                          child: Image.asset('assets/image/icon/CreateNewRecipe.png', fit: BoxFit.cover),
+                                        ),
+                                      )
+                                    ),
+                                    const Text("New Recipe", style: TextStyle(fontSize: 12))
+                                  ]
+                                ),
                                 Container(
-                                  height: 70,
-                                  width: 70,
-                                  margin: const EdgeInsets.only(bottom:5, left: 10),
+                                  height: 40,
+                                  width: 40,
+                                  transform: Matrix4.translationValues(0.0, 30.0, 0.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
-                                    border: Border.all(
-                                      color: primaryColor,
-                                      width: 3,
-                                    ),
-                                    color: primaryColor,
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.45),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 0.0, 
+                                        offset: const Offset(5.0, 5.0,),
+                                      )
+                                    ],
                                   ),
                                   child: ClipOval(
                                     child: SizedBox.fromSize(
                                       size: const Size.fromRadius(18),
-                                      child: Image.asset('assets/image/icon/CreateNewRecipe.png', fit: BoxFit.cover),
+                                      child: Image.asset('assets/image/icon/Add.png', fit: BoxFit.cover),
                                     ),
                                   )
                                 ),
-                                const Text("New Recipe", style: TextStyle(fontSize: 12))
-                              ]
-                            ),
+                              ],
+                            )
                           ),
                           GestureDetector(
                             onTap: (){
@@ -152,7 +179,6 @@ class _RecipesPageState extends State<RecipesPage> {
                                 Container(
                                   height: 75,
                                   width: 75,
-                                  margin: const EdgeInsets.only(left: 10),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
                                   ),
@@ -187,7 +213,7 @@ class _RecipesPageState extends State<RecipesPage> {
                         style: TextStyle(fontSize: 18, color: Colors.black)
                       ),
                       WidgetSpan(
-                        child: const Icon(Icons.warning_rounded, size: 20, color: Colors.black),
+                        child: Icon(Icons.warning_rounded, size: 20, color: Colors.black),
                       ),
                     ]
                   )
@@ -206,25 +232,54 @@ class _RecipesPageState extends State<RecipesPage> {
                             onTap: (){
                               //
                             },
-                            child: Column(
-                              children:[
+                            child: Stack(
+                              children: [
+                                Column(
+                                  children:[
+                                    Container(
+                                      height: 80,
+                                      width: 80,
+                                      margin: const EdgeInsets.only(bottom:5),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(100),
+                                      ),
+                                      child: ClipOval(
+                                        child: SizedBox.fromSize(
+                                          size: const Size.fromRadius(18),
+                                          child: Image.asset('assets/image/recipes/Buncis Tumis Tempe_1.png', fit: BoxFit.cover),
+                                        ),
+                                      )
+                                    ),
+                                    const Text("Buncis Tumis", style: TextStyle(fontSize: 12))
+                                  ]
+                                ),
                                 Container(
-                                  height: 80,
-                                  width: 80,
-                                  margin: const EdgeInsets.only(bottom:5, left: 10),
+                                  height: 35,
+                                  width: 35,
+                                  transform: Matrix4.translationValues(0.0, 40.0, 0.0),
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(100),
+                                    color: Colors.white,
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.grey.withOpacity(0.45),
+                                        blurRadius: 10.0,
+                                        spreadRadius: 0.0, 
+                                        offset: const Offset(5.0, 5.0,),
+                                      )
+                                    ],
                                   ),
-                                  child: ClipOval(
-                                    child: SizedBox.fromSize(
-                                      size: const Size.fromRadius(18),
-                                      child: Image.asset('assets/image/recipes/Buncis Tumis Tempe_1.png', fit: BoxFit.cover),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(2.5),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(60),
+                                      child: Image.asset(
+                                      'assets/image/icon/Continue.png'),
                                     ),
-                                  )
+                                  ),
                                 ),
-                                const Text("Buncis Tumis", style: TextStyle(fontSize: 12))
-                              ]
-                            ),
+                              ],
+                            )
                           ),
                         ],
                       )
@@ -233,71 +288,218 @@ class _RecipesPageState extends State<RecipesPage> {
                 ],
               ),
             ),
-            Container(
-              height: fullHeight,
-              width: fullWidth,
-              margin: EdgeInsets.only(top: 20),
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: DefaultTabController(
-                initialIndex: 1,
-                length: 6,
-                child: Scaffold(
-                  appBar: AppBar(
-                    toolbarHeight: 0,
-                    backgroundColor: Colors.white,
-                    bottom: TabBar(
+            DefaultTabController(
+              initialIndex: 1,
+              length: 6,
+              child: Expanded(
+                child: Column(
+                  children:[
+                    TabBar (
                       labelColor: primaryColor,
                       indicatorColor: primaryColor,
                       unselectedLabelColor: iconMainColor,
                       isScrollable: true,
                       tabs: <Widget>[
-                        Tab(
+                        const Tab(
                           text: "Main Course",
                         ),
-                        Tab(
+                        const Tab(
                           text: "Appetizer",
                         ),
-                        Tab(
+                        const Tab(
                           text: "Desserts",
                         ),
-                        Tab(
+                        const Tab(
                           text: "You May Also Like",
                         ),
-                        Tab(
+                        const Tab(
                           text: "Recipe In My List",
                         ),
-                        Tab(
+                        const Tab(
                           text: "Best Recipe",
                         )
                       ],
                     ),
-                  ),
-                  body: const TabBarView(
-                    children: <Widget>[
-                      Center(
-                        child: Text("It's cloudy here"),
+                    SizedBox(
+                      height: fullHeight*0.7,
+                      child: TabBarView(
+                        children: <Widget>[
+                          ListView(
+                            padding: const EdgeInsets.only(top: 20),
+                            children: [
+                              Container(
+                                width: fullWidth,
+                                height: 175,
+                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Stack(
+                                          children: [
+                                            Container(
+                                              transform: Matrix4.translationValues(0.0, -50.0, 0.0),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(60),
+                                                child: Image.asset(
+                                                'assets/image/recipes/Buncis Tumis Tempe_1.png', width: fullWidth*0.32),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: fullWidth*0.33,
+                                              transform: Matrix4.translationValues(0.0, 80.0, 0.0),
+                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              child: Row(
+                                                children: [
+                                                  Container(
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(60),
+                                                      child: Image.asset(
+                                                      'assets/image/country/Indonesia.png', width: 45),
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(60),
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey.withOpacity(0.45),
+                                                          blurRadius: 10.0,
+                                                          spreadRadius: 0.0, 
+                                                          offset: const Offset(5.0, 5.0,),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Spacer(),
+                                                  Container(
+                                                    child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(60),
+                                                      child: Image.asset(
+                                                      'assets/image/users/user_rosemonde.jpg', width: 45),
+                                                    ),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(60),
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey.withOpacity(0.45),
+                                                          blurRadius: 10.0,
+                                                          spreadRadius: 0.0, 
+                                                          offset: const Offset(5.0, 5.0,),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            )
+                                          ],
+                                        ),
+                                        const Spacer(),
+                                        Container(
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                margin: EdgeInsets.only(right: 10, top: 5),
+                                                width: fullWidth*0.5,
+                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                                child: Row(
+                                                  children: [
+                                                    Text("Beginner", style: TextStyle(color: Colors.green)),
+                                                    Spacer(),
+                                                    Text("Main Course", style: TextStyle(color: Colors.grey)),
+                                                  ],
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(6),
+                                                  color: Color(0xFFF0f0f0),
+                                                ),
+                                              ),
+                                              Container(
+                                                margin: EdgeInsets.only(top: 10),
+                                                width: fullWidth*0.5,
+                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                                child: Row(
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        Text("20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
+                                                        Text("min", style: TextStyle(color: Color(0xFF414141))),
+                                                      ],
+                                                    ),
+                                                    Spacer(),
+                                                    Column(
+                                                      children: [
+                                                        Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
+                                                        Text("cal", style: TextStyle(color: Color(0xFF414141))),
+                                                      ],
+                                                    ),
+                                                    Spacer(),
+                                                    Container(
+                                                      alignment: Alignment.center,
+                                                      width: fullWidth*0.2,
+                                                      child: Text("Beans, Tempeh", style: TextStyle(color: Color(0xFF414141))),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Container(
+                                                child: ElevatedButton.icon(
+                                                  onPressed: () {
+                                                      // Respond to button press
+                                                  },
+                                                  icon: Icon(Icons.arrow_forward, size: 20),
+                                                  label: Text("Cook Now", style: TextStyle(fontSize: 16)),
+                                                  style: ElevatedButton.styleFrom(
+                                                    primary: primaryColor, // Background color
+                                                  ),
+                                                )
+                                              )
+                                            ],
+                                          )
+                                        )
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const Center(
+                            child: Text("It's rainy here"),
+                          ),
+                          const Center(
+                            child: Text("It's sunny here"),
+                          ),
+                          const Center(
+                            child: Text("It's cloudy here"),
+                          ),
+                          const Center(
+                            child: Text("It's rainy here"),
+                          ),
+                          const Center(
+                            child: Text("It's sunny here"),
+                          ),
+                        ],
                       ),
-                      Center(
-                        child: Text("It's rainy here"),
-                      ),
-                      Center(
-                        child: Text("It's sunny here"),
-                      ),
-                      Center(
-                        child: Text("It's cloudy here"),
-                      ),
-                      Center(
-                        child: Text("It's rainy here"),
-                      ),
-                      Center(
-                        child: Text("It's sunny here"),
-                      ),
-                    ],
-                  ),
+                    )
+                  ]
                 ),
               )
-            
-            )
+            )            
           ]
         )
       ),
