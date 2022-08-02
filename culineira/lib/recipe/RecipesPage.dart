@@ -299,23 +299,23 @@ class _RecipesPageState extends State<RecipesPage> {
                       indicatorColor: primaryColor,
                       unselectedLabelColor: iconMainColor,
                       isScrollable: true,
-                      tabs: <Widget>[
-                        const Tab(
+                      tabs: const <Widget>[
+                        Tab(
                           text: "Main Course",
                         ),
-                        const Tab(
+                        Tab(
                           text: "Appetizer",
                         ),
-                        const Tab(
+                        Tab(
                           text: "Desserts",
                         ),
-                        const Tab(
+                        Tab(
                           text: "You May Also Like",
                         ),
-                        const Tab(
+                        Tab(
                           text: "Recipe In My List",
                         ),
-                        const Tab(
+                        Tab(
                           text: "Best Recipe",
                         )
                       ],
@@ -330,12 +330,12 @@ class _RecipesPageState extends State<RecipesPage> {
                               Container(
                                 width: fullWidth,
                                 height: 175,
-                                padding: EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
                                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
+                                  children:[
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -353,7 +353,7 @@ class _RecipesPageState extends State<RecipesPage> {
                                             Container(
                                               width: fullWidth*0.33,
                                               transform: Matrix4.translationValues(0.0, 80.0, 0.0),
-                                              padding: EdgeInsets.symmetric(horizontal: 10),
+                                              padding: const EdgeInsets.symmetric(horizontal: 10),
                                               child: Row(
                                                 children: [
                                                   Container(
@@ -375,7 +375,7 @@ class _RecipesPageState extends State<RecipesPage> {
                                                       ],
                                                     ),
                                                   ),
-                                                  Spacer(),
+                                                  const Spacer(),
                                                   Container(
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.circular(60),
@@ -401,67 +401,63 @@ class _RecipesPageState extends State<RecipesPage> {
                                           ],
                                         ),
                                         const Spacer(),
-                                        Container(
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                margin: EdgeInsets.only(right: 10, top: 5),
-                                                width: fullWidth*0.5,
-                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                                                child: Row(
-                                                  children: [
-                                                    Text("Beginner", style: TextStyle(color: Colors.green)),
-                                                    Spacer(),
-                                                    Text("Main Course", style: TextStyle(color: Colors.grey)),
-                                                  ],
-                                                ),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(6),
-                                                  color: Color(0xFFF0f0f0),
-                                                ),
+                                        Column(
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.only(right: 10, top: 5),
+                                              width: fullWidth*0.5,
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                              child: Row(
+                                                children: const [
+                                                  Text("Beginner", style: TextStyle(color: Colors.green)),
+                                                  Spacer(),
+                                                  Text("Main Course", style: TextStyle(color: Colors.grey)),
+                                                ],
                                               ),
-                                              Container(
-                                                margin: EdgeInsets.only(top: 10),
-                                                width: fullWidth*0.5,
-                                                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                                                child: Row(
-                                                  children: [
-                                                    Column(
-                                                      children: [
-                                                        Text("20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
-                                                        Text("min", style: TextStyle(color: Color(0xFF414141))),
-                                                      ],
-                                                    ),
-                                                    Spacer(),
-                                                    Column(
-                                                      children: [
-                                                        Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
-                                                        Text("cal", style: TextStyle(color: Color(0xFF414141))),
-                                                      ],
-                                                    ),
-                                                    Spacer(),
-                                                    Container(
-                                                      alignment: Alignment.center,
-                                                      width: fullWidth*0.2,
-                                                      child: Text("Beans, Tempeh", style: TextStyle(color: Color(0xFF414141))),
-                                                    ),
-                                                  ],
-                                                ),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(6),
+                                                color: const Color(0xFFF0f0f0),
                                               ),
-                                              Container(
-                                                child: ElevatedButton.icon(
-                                                  onPressed: () {
-                                                      // Respond to button press
-                                                  },
-                                                  icon: Icon(Icons.arrow_forward, size: 20),
-                                                  label: Text("Cook Now", style: TextStyle(fontSize: 16)),
-                                                  style: ElevatedButton.styleFrom(
-                                                    primary: primaryColor, // Background color
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.only(top: 10),
+                                              width: fullWidth*0.5,
+                                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                                              child: Row(
+                                                children: [
+                                                  Column(
+                                                    children: const [
+                                                      Text("20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
+                                                      Text("min", style: TextStyle(color: Color(0xFF414141))),
+                                                    ],
                                                   ),
-                                                )
-                                              )
-                                            ],
-                                          )
+                                                  const Spacer(),
+                                                  Column(
+                                                    children: const [
+                                                      Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Color(0xFF414141))),
+                                                      Text("cal", style: TextStyle(color: Color(0xFF414141))),
+                                                    ],
+                                                  ),
+                                                  const Spacer(),
+                                                  Container(
+                                                    alignment: Alignment.center,
+                                                    width: fullWidth*0.2,
+                                                    child: const Text("Beans, Tempeh", style: TextStyle(color: Color(0xFF414141))),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            ElevatedButton.icon(
+                                              onPressed: () {
+                                                  // Respond to button press
+                                              },
+                                              icon: const Icon(Icons.arrow_forward, size: 20),
+                                              label: const Text("Cook Now", style: TextStyle(fontSize: 16)),
+                                              style: ElevatedButton.styleFrom(
+                                                primary: primaryColor, // Background color
+                                              ),
+                                            )
+                                          ],
                                         )
                                       ],
                                     )
