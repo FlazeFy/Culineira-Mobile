@@ -17,6 +17,7 @@ class _CommunityPageState extends State<CommunityPage> with TickerProviderStateM
     _tabController = TabController(length: 2, vsync: this);
   }
 
+  @override
   Widget build(BuildContext context) {
     double fullHeight =  MediaQuery.of(context).size.height;
     double fullWidth =  MediaQuery.of(context).size.width;
@@ -82,7 +83,7 @@ class _CommunityPageState extends State<CommunityPage> with TickerProviderStateM
             padding: const EdgeInsets.only(top: 10),
             children: [
               Container(
-                margin: EdgeInsets.only(left: 20, right: 20),
+                margin: const EdgeInsets.only(left: 20, right: 20),
                 child: Row(
                   children:[
                     const Text("3 Group", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,)),
@@ -93,9 +94,48 @@ class _CommunityPageState extends State<CommunityPage> with TickerProviderStateM
                         onPressed: () {
                             // Respond to button press
                         },
-                        icon: Icon(Icons.add, size: 22, color: Colors.green),
-                        label: Text("Create Group", style: TextStyle(fontSize: 16, color: Colors.green)),
+                        icon: const Icon(Icons.add, size: 22, color: Colors.green),
+                        label: const Text("Create Group", style: TextStyle(fontSize: 16, color: Colors.green)),
                       )
+                    ),
+                  ]
+                ),
+              ),
+              Container(
+                height: 80.0,
+                width: fullWidth,
+                padding: const EdgeInsets.all(10),
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.fitWidth,
+                    image: const AssetImage('assets/image/users/ZwoKAcQljcJUH7vO1NncRMl1YJ4QoyovJDXfgXHt.jpg'),
+                    colorFilter: 
+                      ColorFilter.mode(Colors.black.withOpacity(0.5), 
+                      BlendMode.darken
+                    ),
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        Text("Meat Lovers", style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
+                        Spacer(),
+                        Text("Public", style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500))
+                      ],
+                    ),
+                    RichText(
+                      text: const TextSpan(                     
+                        text: "richardkyle ~ Hello everyone, how are you today?. I have some new sick recipe to share with you all",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),                              
                     ),
                   ]
                 ),
@@ -105,7 +145,7 @@ class _CommunityPageState extends State<CommunityPage> with TickerProviderStateM
           ),
           ListView(
             padding: const EdgeInsets.only(top: 20),
-            children: []
+            children: const []
           )
         ]
       )

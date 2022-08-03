@@ -12,6 +12,8 @@ void main() {
 var primaryColor = const Color(0xFFEB7336);
 var mainbg = const Color(0xFFFFF4EB);
 var iconMainColor = const Color(0xFF2F4858);
+var secondaryColor = const Color(0xFF6c757d);
+var dangerColor = const Color(0xFFd9534f);
 
 class MyApp extends StatelessWidget {
     const MyApp({Key key}) : super(key: key);

@@ -1,3 +1,4 @@
+import 'package:culineira/detail/DetailPage.dart';
 import 'package:culineira/main.dart';
 import 'package:flutter/material.dart';
 
@@ -289,7 +290,7 @@ class _RecipesPageState extends State<RecipesPage> {
               ),
             ),
             DefaultTabController(
-              initialIndex: 1,
+              initialIndex: 0,
               length: 6,
               child: Expanded(
                 child: Column(
@@ -332,10 +333,18 @@ class _RecipesPageState extends State<RecipesPage> {
                                 height: 175,
                                 padding: const EdgeInsets.symmetric(horizontal: 10),
                                 margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 30),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: const BorderRadius.all(Radius.circular(6)),
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                    width: 1,
+                                  ),
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children:[
+                                  children: [
                                     Row(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -357,11 +366,26 @@ class _RecipesPageState extends State<RecipesPage> {
                                               child: Row(
                                                 children: [
                                                   Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(60),
+                                                      color: Colors.white,
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.grey.withOpacity(0.45),
+                                                          blurRadius: 10.0,
+                                                          spreadRadius: 0.0, 
+                                                          offset: const Offset(5.0, 5.0,),
+                                                        )
+                                                      ],
+                                                    ),
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.circular(60),
                                                       child: Image.asset(
                                                       'assets/image/country/Indonesia.png', width: 45),
                                                     ),
+                                                  ),
+                                                  const Spacer(),
+                                                  Container(
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(60),
                                                       color: Colors.white,
@@ -374,25 +398,10 @@ class _RecipesPageState extends State<RecipesPage> {
                                                         )
                                                       ],
                                                     ),
-                                                  ),
-                                                  const Spacer(),
-                                                  Container(
                                                     child: ClipRRect(
                                                       borderRadius: BorderRadius.circular(60),
                                                       child: Image.asset(
                                                       'assets/image/users/user_rosemonde.jpg', width: 45),
-                                                    ),
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(60),
-                                                      color: Colors.white,
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.grey.withOpacity(0.45),
-                                                          blurRadius: 10.0,
-                                                          spreadRadius: 0.0, 
-                                                          offset: const Offset(5.0, 5.0,),
-                                                        )
-                                                      ],
                                                     ),
                                                   ),
                                                 ],
@@ -407,16 +416,16 @@ class _RecipesPageState extends State<RecipesPage> {
                                               margin: const EdgeInsets.only(right: 10, top: 5),
                                               width: fullWidth*0.5,
                                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(6),
+                                                color: const Color(0xFFF0f0f0),
+                                              ),
                                               child: Row(
                                                 children: const [
                                                   Text("Beginner", style: TextStyle(color: Colors.green)),
                                                   Spacer(),
                                                   Text("Main Course", style: TextStyle(color: Colors.grey)),
                                                 ],
-                                              ),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(6),
-                                                color: const Color(0xFFF0f0f0),
                                               ),
                                             ),
                                             Container(
@@ -449,7 +458,10 @@ class _RecipesPageState extends State<RecipesPage> {
                                             ),
                                             ElevatedButton.icon(
                                               onPressed: () {
-                                                  // Respond to button press
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(builder: (context) => const DetailPage()),
+                                                );
                                               },
                                               icon: const Icon(Icons.arrow_forward, size: 20),
                                               label: const Text("Cook Now", style: TextStyle(fontSize: 16)),
@@ -462,14 +474,6 @@ class _RecipesPageState extends State<RecipesPage> {
                                       ],
                                     )
                                   ],
-                                ),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: const BorderRadius.all(Radius.circular(6)),
-                                  border: Border.all(
-                                    color: Colors.grey,
-                                    width: 1,
-                                  ),
                                 ),
                               )
                             ],

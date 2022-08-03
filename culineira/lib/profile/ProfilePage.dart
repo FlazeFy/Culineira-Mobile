@@ -39,6 +39,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   Container(
                     padding: const EdgeInsets.all(2.5),
+                    margin: const EdgeInsets.only(left: 10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -53,27 +54,27 @@ class _ProfilePageState extends State<ProfilePage> {
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text("20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
-                                  const Text("Following", style: TextStyle(color: Colors.grey)),
+                                children: const [
+                                  Text("20", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
+                                  Text("Following", style: TextStyle(color: Colors.grey)),
                                 ],
                               ),
                               const Spacer(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
-                                  const Text("Followers", style: TextStyle(color: Colors.grey)),
+                                children: const [
+                                  Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
+                                  Text("Followers", style: TextStyle(color: Colors.grey)),
                                 ],
                               ),
                               const Spacer(),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  const Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
-                                  const Text("Recipes", style: TextStyle(color: Colors.grey)),
+                                children: const [
+                                  Text("500", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF414141))),
+                                  Text("Recipes", style: TextStyle(color: Colors.grey)),
                                 ],
                               ),
                             ],

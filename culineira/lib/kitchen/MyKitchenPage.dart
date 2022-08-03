@@ -45,7 +45,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                   Ink(
                     child: IconButton(
                       icon: const Icon(Icons.delete, size: 26),
-                      color: const Color.fromARGB(255, 199, 65, 80),
+                      color: dangerColor,
                       onPressed: () {},
                     ),
                   ),
@@ -71,6 +71,14 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                       width: 260,
                       padding: const EdgeInsets.all(2),
                       margin: const EdgeInsets.only(left: 10),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: const BorderRadius.all(Radius.circular(6)),
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                      ),
                       child: Column(
                         children: [
                           Row(
@@ -127,16 +135,16 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                 Container(
                                   padding: const EdgeInsets.all(5),
                                   margin: const EdgeInsets.symmetric(horizontal: 5),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey.withOpacity(0.3),
+                                    borderRadius: const BorderRadius.all(Radius.circular(6)),
+                                  ),
                                   child: Row(
                                     children: const [
                                       Text("Chicken Kebab", style: TextStyle(color: Color(0xFF414141))),
                                       Spacer(),
                                       Text("Appetizer", style: TextStyle(color: Color(0xFF414141)))
                                     ],
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    borderRadius: const BorderRadius.all(Radius.circular(6)),
                                   ),
                                 ),
                               ]
@@ -171,14 +179,6 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                             )
                           )
                         ]
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(Radius.circular(6)),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
                       ),
                     ),
                   ),
@@ -266,7 +266,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                       Ink(
                         child: IconButton(
                           icon: const Icon(Icons.delete, size: 26),
-                          color: const Color.fromARGB(255, 199, 65, 80),
+                          color: dangerColor,
                           onPressed: () {},
                         ),
                       ),
@@ -278,6 +278,14 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                         width: fullWidth*0.42,
                         padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                         margin: const EdgeInsets.only(top: 5, right: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: const BorderRadius.all(Radius.circular(6)),
+                          border: Border.all(
+                            color: Colors.grey,
+                            width: 1,
+                          ),
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -296,18 +304,8 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                               ],
                             ),
                             const Text("Telur ayam negeri exp: 28/7", style: TextStyle(fontSize: 13)),
-                            Container(
-                              child: const Text("last updated: June 29 06:07", style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 125, 125, 125), fontStyle: FontStyle.italic)),
-                            )
+                            const Text("last updated: June 29 06:07", style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 125, 125, 125), fontStyle: FontStyle.italic))
                           ]
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.all(Radius.circular(6)),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1,
-                          ),
                         ),
                       ),
                     ]
