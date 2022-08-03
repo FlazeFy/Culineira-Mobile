@@ -201,7 +201,7 @@ class _RecipesPageState extends State<RecipesPage> {
               )
             ),
             Container(
-              margin: const EdgeInsets.only(top: 20, left: 10, right: 10),
+              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               color: const Color(0xFFFFc3bC),
               child: ExpansionTile(
                 tilePadding: const EdgeInsets.all(10),

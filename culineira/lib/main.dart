@@ -51,9 +51,9 @@ class _NavBarState extends State<NavBar> {
       index: 0,
       height: 60.0,
       items: <Widget>[
-        Icon(Icons.book, size: 30, color: iconMainColor),
-        Icon(Icons.kitchen, size: 30, color: iconMainColor),
-        Icon(Icons.group, size: 30, color: iconMainColor),
+        Icon(Icons.book, size: 30, color: mainbg),
+        Icon(Icons.kitchen, size: 30, color: mainbg),
+        Icon(Icons.group, size: 30, color: mainbg),
         ClipOval(
           child: SizedBox.fromSize(
             size: const Size.fromRadius(18), // Image radius
@@ -61,8 +61,9 @@ class _NavBarState extends State<NavBar> {
           ),
         ),
       ],
-      buttonBackgroundColor: mainbg,
+      buttonBackgroundColor: primaryColor,
       backgroundColor: mainbg,
+      color: primaryColor,
       animationCurve: Curves.easeInOut,
       animationDuration: const Duration(milliseconds: 600),
       onTap: (index) {

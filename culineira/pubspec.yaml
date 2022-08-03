@@ -33,7 +33,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
   flutter_switch: ^0.3.2
   postgres: ^2.4.6
-
+  table_calendar: ^3.0.6
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
