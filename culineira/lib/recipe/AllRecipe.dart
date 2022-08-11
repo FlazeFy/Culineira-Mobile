@@ -1,57 +1,23 @@
 import 'package:culineira/database/model/recipe.dart';
-import 'package:culineira/detail/DetailPage.dart';
+import 'package:culineira/detail/index.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
 
 class AllRecipe extends StatefulWidget {
-  const AllRecipe({Key key}) : super(key: key);
+  AllRecipe({Key key, this.data}) : super(key: key);
+  var data;
 
   @override
   _AllRecipeState createState() => _AllRecipeState();
 }
 
 class _AllRecipeState extends State<AllRecipe> {
-  List<recipeModel> _recipeList = <recipeModel>[];
-
-  Future getAllRecipe() async {
-    var connection =  await setDatabase();
-    _recipeList = <recipeModel>[];
-    
-    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
-    "SELECT * FROM public.recipes join public.users on public.recipes.user_id = public.users.id " 
-    "ORDER BY recipes.updated_at");
-
-    results.forEach((results){
-      setState((){
-        var recipeModels = recipeModel();
-        
-        recipeModels.id = results['recipes']['id'];
-        recipeModels.recipe_name = results['recipes']['recipe_name'];
-        recipeModels.username = results['users']['username'];
-        recipeModels.recipe_calorie = results['recipes']['recipe_calorie'];
-        recipeModels.recipe_time_spend = results['recipes']['recipe_time_spend'];
-        recipeModels.recipe_main_ing = results['recipes']['recipe_main_ing'];
-        recipeModels.recipe_country = results['recipes']['recipe_country'];
-        recipeModels.recipe_level = results['recipes']['recipe_level'];
-        recipeModels.recipe_type = results['recipes']['recipe_type'];
-        recipeModels.recipe_url = results['recipes']['recipe_url'];
-
-        _recipeList.add(recipeModels);
-      });
-    });
-  }
-
-  @override
-  void initState(){
-    super.initState();
-    getAllRecipe();
-  }
-
   @override
   Widget build(BuildContext context) {
     double fullHeight =  MediaQuery.of(context).size.height;
     double fullWidth =  MediaQuery.of(context).size.width;
+    var _recipeList = widget.data;
 
     //Get recipe based on recipe type
     Widget getRecipeCard(String type){
@@ -61,7 +27,8 @@ class _AllRecipeState extends State<AllRecipe> {
           itemCount : _recipeList.length,
           itemBuilder: (context, index){
             return GestureDetector( 
-              onTap: () {
+              onTap: () async {
+                passIdRecipe = _recipeList[index].id.toString();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => const DetailPage()),
@@ -147,7 +114,7 @@ class _AllRecipeState extends State<AllRecipe> {
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(60),
                                       child: Image.asset(
-                                      'assets/image/users/user_rosemonde.jpg', width: 45),
+                                      'assets/storage/${_recipeList[index].user_image}', width: 45),
                                     ),
                                   ),
                                 ],
@@ -222,7 +189,8 @@ class _AllRecipeState extends State<AllRecipe> {
           itemBuilder: (context, index){
             if(_recipeList[index].recipe_type == type){
               return GestureDetector( 
-                onTap: () {
+                onTap: () async {
+                  passIdRecipe = _recipeList[index].id.toString();
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const DetailPage()),
@@ -308,7 +276,7 @@ class _AllRecipeState extends State<AllRecipe> {
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(60),
                                         child: Image.asset(
-                                        'assets/image/users/user_rosemonde.jpg', width: 45),
+                                        'assets/storage/${_recipeList[index].user_image}', width: 45),
                                       ),
                                     ),
                                   ],
@@ -440,6 +408,6 @@ class _AllRecipeState extends State<AllRecipe> {
           ]
         ),
       )
-            );
+    );
   }
 }

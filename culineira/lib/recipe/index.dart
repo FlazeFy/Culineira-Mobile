@@ -1,5 +1,5 @@
 import 'package:culineira/database/model/recipe.dart';
-import 'package:culineira/detail/DetailPage.dart';
+import 'package:culineira/detail/index.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/recipe/AllRecipe.dart';
 import 'package:culineira/recipe/NewRecipe.dart';
@@ -16,6 +16,44 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+  List<recipeModel> _recipeList = <recipeModel>[];
+
+  Future getAllRecipe() async {
+    var connection =  await setDatabase();
+    _recipeList = <recipeModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT * FROM public.recipes join public.users on public.recipes.user_id = public.users.id " 
+    "WHERE recipes.recipe_visibility = 'Public' "
+    "ORDER BY recipes.updated_at");
+
+    results.forEach((results){
+      setState((){
+        var recipeModels = recipeModel();
+        
+        recipeModels.id = results['recipes']['id'];
+        recipeModels.recipe_name = results['recipes']['recipe_name'];
+        recipeModels.username = results['users']['username'];
+        recipeModels.recipe_calorie = results['recipes']['recipe_calorie'];
+        recipeModels.recipe_time_spend = results['recipes']['recipe_time_spend'];
+        recipeModels.recipe_main_ing = results['recipes']['recipe_main_ing'];
+        recipeModels.recipe_country = results['recipes']['recipe_country'];
+        recipeModels.recipe_level = results['recipes']['recipe_level'];
+        recipeModels.recipe_type = results['recipes']['recipe_type'];
+        recipeModels.recipe_url = results['recipes']['recipe_url'];
+        recipeModels.user_image = results['users']['image_url'];
+
+        _recipeList.add(recipeModels);
+      });
+    });
+  }
+
+  @override
+  void initState(){
+    super.initState();
+    getAllRecipe();
+  }
+
   @override
   Widget build(BuildContext context) {
     double fullHeight =  MediaQuery.of(context).size.height;
@@ -106,7 +144,7 @@ class _RecipesPageState extends State<RecipesPage> {
             ),
             NewRecipe(),
             UnfinishedRecipe(),
-            AllRecipe()       
+            AllRecipe(data: _recipeList)       
           ]
         )
       ),

@@ -4,7 +4,6 @@ import 'package:culineira/profile/ProfilePage.dart';
 import 'package:culineira/recipe/index.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:postgres/postgres.dart';
 
 void main() {
     runApp(const MyApp());
@@ -15,6 +14,11 @@ var mainbg = const Color(0xFFFFF4EB);
 var iconMainColor = const Color(0xFF2F4858);
 var secondaryColor = const Color(0xFF6c757d);
 var dangerColor = const Color(0xFFd9534f);
+
+//For now.
+int passIdUser = 1;
+String passUsername = "flazefy";
+String passIdRecipe;
 
 class MyApp extends StatelessWidget {
     const MyApp({Key key}) : super(key: key);

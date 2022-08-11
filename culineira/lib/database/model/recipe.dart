@@ -12,7 +12,8 @@ class recipeModel{
   String recipe_level; 
   String recipe_visibility; 
   String recipe_url; 
-  String recipe_video; 
+  String recipe_video;
+  String user_image; 
   DateTime created_at; 
   DateTime updated_at;
    
@@ -33,6 +34,7 @@ class recipeModel{
     mapping['recipe_visibility'] = recipe_visibility;
     mapping['recipe_url'] = recipe_url;
     mapping['recipe_video'] = recipe_video;
+    mapping['image_url'] = user_image;
     mapping['created_at'] = created_at;
     mapping['updated_at'] = updated_at;
     
