@@ -34,6 +34,7 @@ dependencies:
   flutter_switch: ^0.3.2
   postgres: ^2.4.6
   table_calendar: ^3.0.6
+  query: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -70,6 +71,7 @@ flutter:
   - assets/image/users/
   - assets/image/icon/
   - assets/image/country/
+  - assets/storage/
   - assets/image/recipes/
   - assets/video/
   - assets/storyset/
