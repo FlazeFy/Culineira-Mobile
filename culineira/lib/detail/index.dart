@@ -1,6 +1,8 @@
 import 'package:culineira/database/model/ingredient.dart';
 import 'package:culineira/database/model/recipe.dart';
+import 'package:culineira/database/model/step.dart';
 import 'package:culineira/detail/Ingredients.dart';
+import 'package:culineira/detail/Steps.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +15,12 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
+  //Model.
   List<recipeModel> _recipeList = <recipeModel>[];
+  List<ingredientsModel> _ingredientsList = <ingredientsModel>[];
+  List<stepsModel> _stepsList = <stepsModel>[];
 
+  //Controller.
   Future getRecipeId() async {
     var connection =  await setDatabase();
     _recipeList = <recipeModel>[];
@@ -48,8 +54,6 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
-  List<ingredientsModel> _ingredientsList = <ingredientsModel>[];
-
   Future getIngredients() async {
     var connection =  await setDatabase();
     _ingredientsList = <ingredientsModel>[];
@@ -72,12 +76,35 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  Future getSteps() async {
+    var connection =  await setDatabase();
+    _stepsList = <stepsModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT * FROM public.steps join public.recipes on public.recipes.id = public.steps.recipe_id " 
+    "WHERE steps.recipe_id = ${passIdRecipe} "
+    "ORDER BY steps.id");
+
+    results.forEach((results){
+      setState((){
+        var stepsModels = stepsModel();
+        
+        stepsModels.id = results['steps']['id'];
+        stepsModels.steps_body = results['steps']['steps_body'];
+        stepsModels.steps_image = results['steps']['steps_image'];
+        stepsModels.steps_type = results['steps']['steps_type'];
+
+        _stepsList.add(stepsModels);
+      });
+    });
+  }
+
   @override
   void initState(){
     super.initState();
     getRecipeId();
     getIngredients();
-    
+    getSteps();
   }
   
   @override
@@ -411,9 +438,7 @@ class _DetailPageState extends State<DetailPage> {
                             ],
                           ),
                           Ingredients(data : _ingredientsList),
-                          const Center(
-                            child: Text("It's sunny here"),
-                          ),
+                          Steps(data : _stepsList),
                           const Center(
                             child: Text("It's cloudy here"),
                           ),
