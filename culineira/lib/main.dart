@@ -1,4 +1,4 @@
-import 'package:culineira/community/CommunityPage.dart';
+import 'package:culineira/community/index.dart';
 import 'package:culineira/kitchen/MyKitchenPage.dart';
 import 'package:culineira/profile/ProfilePage.dart';
 import 'package:culineira/recipe/index.dart';
