@@ -1,5 +1,8 @@
+import 'package:culineira/database/model/shelf.dart';
+import 'package:culineira/kitchen/shelf.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/others/checkbox.dart';
+import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -14,6 +17,40 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
   CalendarFormat format = CalendarFormat.month;
   DateTime selectedDay = DateTime.now();
   DateTime focusedDay = DateTime.now();
+
+  //Model.
+  List<shelfModel> _shelfList = <shelfModel>[];
+
+  //Controller.
+  Future getShelf() async {
+    var connection =  await setDatabase();
+    _shelfList = <shelfModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT * FROM public.shelf "
+    "WHERE users_id = ${passIdUser} "
+    "ORDER BY created_at desc ");
+
+    results.forEach((results){
+      setState((){
+        var shelfModels = shelfModel();
+        
+        shelfModels.id = results['shelf']['id'];
+        shelfModels.item_name = results['shelf']['item_name'];
+        shelfModels.item_description = results['shelf']['item_description'];
+        shelfModels.item_qty = results['shelf']['item_qty'];
+        shelfModels.created_at = results['shelf']['created_at'];
+
+        _shelfList.add(shelfModels);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getShelf();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -245,74 +282,10 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
             Container(
               width: fullWidth,
               padding: const EdgeInsets.all(10),
+              height: fullHeight*0.5,
               margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               color: Colors.white,
-              child: Column(
-                children: [
-                  Row(
-                    children:[
-                      const Text("Shelf", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,)),
-                      const Spacer(),
-                      Container(
-                        margin: const EdgeInsets.only(right: 15),
-                        child: TextButton.icon(
-                          onPressed: () {
-                              // Respond to button press
-                          },
-                          icon: const Icon(Icons.add, size: 22, color: Color.fromARGB(255, 25, 135, 84)),
-                          label: const Text("Add Item", style: TextStyle(fontSize: 16, color: Color.fromARGB(255, 25, 135, 84))),
-                        )
-                      ),
-                      Ink(
-                        child: IconButton(
-                          icon: const Icon(Icons.delete, size: 26),
-                          color: dangerColor,
-                          onPressed: () {},
-                        ),
-                      ),
-                    ]
-                  ),
-                  Row(
-                    children:[
-                      Container(
-                        width: fullWidth*0.42,
-                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                        margin: const EdgeInsets.only(top: 5, right: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: const BorderRadius.all(Radius.circular(6)),
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1,
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                const Text("3x Telur Ayam", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13)),
-                                const Spacer(),
-                                Container(
-                                  transform: Matrix4.translationValues(fullWidth*0.03, 0.0, 0.0),
-                                  child: IconButton(
-                                    icon: const Icon(Icons.edit, size: 22),
-                                    onPressed: () {},
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const Text("Telur ayam negeri exp: 28/7", style: TextStyle(fontSize: 13)),
-                            const Text("last updated: June 29 06:07", style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 125, 125, 125), fontStyle: FontStyle.italic))
-                          ]
-                        ),
-                      ),
-                    ]
-                  )
-                  
-                ],
-              ),
+              child: Shelf(data: _shelfList)
             ),
             Container(
               width: fullWidth,

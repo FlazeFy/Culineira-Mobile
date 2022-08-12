@@ -16,75 +16,108 @@ class _GroupState extends State<Group> {
     double fullHeight =  MediaQuery.of(context).size.height;
     double fullWidth =  MediaQuery.of(context).size.width;
     var _groupList = widget.data;
+    var _messageList = widget.data2;
+    int i = 0;
 
     return ListView.builder(
-      padding: const EdgeInsets.only(top: 20, left: 10, right: 10),
+      padding: const EdgeInsets.only(left: 10, right: 10),
       itemCount : _groupList.length,
       itemBuilder: (context, index){
 
         Widget getLastMsg(){
           int id = _groupList[index].id;
-          var _messageList = widget.data2;
           int count = 0;
-
           return Container(
             height: 20,
             child: ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               itemCount : _messageList.length,
-              itemBuilder: (context, index){
-                if(_messageList[index].id == id){
+              itemBuilder: (context, index2){
+                if(_messageList[index2].id == id){
                   if(count == 0){
                     count++;
                     return RichText(
                       text: TextSpan(                     
-                        text: "${_messageList[index].username} ~ ${_messageList[index].message_body}",
+                        text: "${_messageList[index2].username} ~ ${_messageList[index2].message_body}",
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 14,
                         ),
                       ),                              
                     );
-                  } 
+                  }
                 } 
               }
             )
           );
         }
-        
-        return Container(
-          height: 80.0,
-          width: fullWidth,
-          padding: const EdgeInsets.all(10),
-          margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.fitWidth,
-              image: AssetImage('assets/storage/${_groupList[index].groups_image}'),
-              colorFilter: 
-                ColorFilter.mode(Colors.black.withOpacity(0.5), 
-                BlendMode.darken
+
+        Widget getContactBox(){
+          return Container(
+            height: 80.0,
+            width: fullWidth,
+            padding: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage('assets/storage/${_groupList[index].groups_image}'),
+                colorFilter: 
+                  ColorFilter.mode(Colors.black.withOpacity(0.5), 
+                  BlendMode.darken
+                ),
               ),
+              borderRadius: BorderRadius.circular(10),
             ),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Column(
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_groupList[index].groups_name, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
+                    const Spacer(),
+                    Text(_groupList[index].groups_type, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500))
+                  ],
+                ),
+                // LastMessage(data: widget.data2, id_group: _groupList[index].id)
+                getLastMsg()
+              ]
+            ),
+          );
+        }
+        
+        if(i == 0){
+          i++;
+          return Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(_groupList[index].groups_name, style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500)),
-                  const Spacer(),
-                  Text(_groupList[index].groups_type, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500))
-                ],
-              ),
-              // LastMessage(data: widget.data2, id_group: _groupList[index].id)
-              getLastMsg()
-            ]
-          ),
-        );
-      
+              Container(
+                margin: EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  children:[
+                    const Text("3 Group", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,)),
+                    const Spacer(),
+                    Container(
+                      margin: const EdgeInsets.only(right: 15),
+                      child: TextButton.icon(
+                        onPressed: () {
+                            // Respond to button press
+                        },
+                        icon: Icon(Icons.add, size: 22, color: Colors.green),
+                        label: Text("Create Group", style: TextStyle(fontSize: 16, color: Colors.green)),
+                      )
+                    ),
+                  ]
+                ),
+              ),getContactBox()
+              
+            ],
+          );
+        } else {
+          return getContactBox();
+        }
+        
       }
     );
   }
