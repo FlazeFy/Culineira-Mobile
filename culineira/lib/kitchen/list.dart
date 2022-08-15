@@ -1,10 +1,12 @@
+import 'package:culineira/kitchen/recipeInList.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/others/checkbox.dart';
 import 'package:flutter/material.dart';
 
 class ListRecipe extends StatefulWidget {
-  ListRecipe({Key key, this.data}) : super(key: key);
+  ListRecipe({Key key, this.data, this.data2}) : super(key: key);
   var data;
+  var data2;
 
   @override
   _ListRecipeState createState() => _ListRecipeState();
@@ -21,7 +23,7 @@ class _ListRecipeState extends State<ListRecipe> {
 
     return ListView.builder(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(vertical: 10),
+      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       itemCount : _listRecipeList.length,
       itemBuilder: (context, index){
 
@@ -107,26 +109,7 @@ class _ListRecipeState extends State<ListRecipe> {
                 Container(
                   height: 135,
                   padding: const EdgeInsets.symmetric(vertical: 5),
-                  child: ListView(
-                    padding: const EdgeInsets.only(top: 0),
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(5),
-                        margin: const EdgeInsets.symmetric(horizontal: 5),
-                        decoration: BoxDecoration(
-                          color: Colors.grey.withOpacity(0.3),
-                          borderRadius: const BorderRadius.all(Radius.circular(6)),
-                        ),
-                        child: Row(
-                          children: const [
-                            Text("Chicken Kebab", style: TextStyle(color: Color(0xFF414141))),
-                            Spacer(),
-                            Text("Appetizer", style: TextStyle(color: Color(0xFF414141)))
-                          ],
-                        ),
-                      ),
-                    ]
-                  ),
+                  child: RecipeInList(data: widget.data2, listId: _listRecipeList[index].id)
                 ),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 5),

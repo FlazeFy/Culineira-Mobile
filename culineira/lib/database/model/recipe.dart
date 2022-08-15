@@ -1,6 +1,7 @@
 class recipeModel{
   int id; 
   int user_id; 
+   int list_id; 
   String recipe_name; 
   String username; 
   int recipe_calorie; 

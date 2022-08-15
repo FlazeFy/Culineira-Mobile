@@ -1,4 +1,5 @@
 import 'package:culineira/database/model/list.dart';
+import 'package:culineira/database/model/recipe.dart';
 import 'package:culineira/database/model/shelf.dart';
 import 'package:culineira/kitchen/list.dart';
 import 'package:culineira/kitchen/shelf.dart';
@@ -23,6 +24,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
   //Model.
   List<shelfModel> _shelfList = <shelfModel>[];
   List<listModel> _listRecipeList = <listModel>[];
+  List<recipeModel> _recipeInList = <recipeModel>[];
 
   //Controller.
   Future getShelf() async {
@@ -73,11 +75,38 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
     });
   }
 
+  Future getRecipeInList() async {
+    var connection =  await setDatabase();
+    _recipeInList = <recipeModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT list_rel.id, list.id, recipes.recipe_name, recipes.recipe_type, list_rel.created_at FROM public.recipes "
+    "JOIN public.list_rel on public.recipes.id = public.list_rel.recipe_id "
+    "JOIN public.list on public.list.id = public.list_rel.list_id "
+    "WHERE list.user_id = ${passIdUser} "
+    "ORDER BY list_rel.created_at asc");
+
+    results.forEach((results){
+      setState((){
+        var recipeModels = recipeModel();
+        
+        recipeModels.id = results['list_rel']['id'];
+        recipeModels.list_id = results['list']['id'];
+        recipeModels.recipe_name = results['recipes']['recipe_name'];
+        recipeModels.recipe_type = results['recipes']['recipe_type'];
+        recipeModels.created_at = results['list_rel']['created_at'];
+
+        _recipeInList.add(recipeModels);
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getShelf();
     getListRecipe();
+    getRecipeInList();
   }
 
   @override
@@ -127,7 +156,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
             SizedBox(
               height: 340,
               width: fullWidth,
-              child: ListRecipe(data: _listRecipeList)
+              child: ListRecipe(data: _listRecipeList, data2: _recipeInList)
             ), 
             Container(
               width: fullWidth,
