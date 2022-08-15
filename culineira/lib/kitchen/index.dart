@@ -1,4 +1,6 @@
+import 'package:culineira/database/model/list.dart';
 import 'package:culineira/database/model/shelf.dart';
+import 'package:culineira/kitchen/list.dart';
 import 'package:culineira/kitchen/shelf.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/others/checkbox.dart';
@@ -20,6 +22,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
 
   //Model.
   List<shelfModel> _shelfList = <shelfModel>[];
+  List<listModel> _listRecipeList = <listModel>[];
 
   //Controller.
   Future getShelf() async {
@@ -46,10 +49,35 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
     });
   }
 
+  Future getListRecipe() async {
+    var connection =  await setDatabase();
+    _listRecipeList = <listModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT * FROM public.list "
+    "WHERE user_id = ${passIdUser} "
+    "ORDER BY created_at asc");
+
+    results.forEach((results){
+      setState((){
+        var listModels = listModel();
+        
+        listModels.id = results['list']['id'];
+        listModels.list_name = results['list']['list_name'];
+        listModels.list_status = results['list']['list_status'];
+        listModels.list_description = results['list']['list_description'];
+        listModels.updated_at = results['list']['updated_at'];
+
+        _listRecipeList.add(listModels);
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     getShelf();
+    getListRecipe();
   }
 
   @override
@@ -99,128 +127,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
             SizedBox(
               height: 340,
               width: fullWidth,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                children: [
-                  GestureDetector(
-                    child: Container(
-                      width: 260,
-                      padding: const EdgeInsets.all(2),
-                      margin: const EdgeInsets.only(left: 10),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: const BorderRadius.all(Radius.circular(6)),
-                        border: Border.all(
-                          color: Colors.grey,
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Ink(
-                                child: IconButton(
-                                  icon: const Icon(Icons.star_border_outlined, size: 22),
-                                  onPressed: () {},
-                                ),
-                              ),
-                              const Spacer(),
-                              const Text("Chicken Legacy", style: TextStyle(fontWeight: FontWeight.w500)),
-                              const Spacer(),
-                              const CheckRecipeList()
-                            ],
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(top: 2),
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const [
-                                    Text("6", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Color(0xFF414141))),
-                                    Text("Recipe", style: TextStyle(color: Colors.grey)),
-                                  ],
-                                ),
-                                const Spacer(),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: const [
-                                    Text("Jun-18 01:07", style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: Color(0xFF414141))),
-                                    Text("Updated At", style: TextStyle(color: Colors.grey)),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                            child: const Text("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", 
-                              overflow: TextOverflow.ellipsis, maxLines: 2, style: TextStyle(fontSize: 12, color: Colors.grey)
-                            ),
-                          ),
-                          Container(
-                            height: 135,
-                            padding: const EdgeInsets.symmetric(vertical: 5),
-                            child: ListView(
-                              padding: const EdgeInsets.only(top: 0),
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.all(5),
-                                  margin: const EdgeInsets.symmetric(horizontal: 5),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey.withOpacity(0.3),
-                                    borderRadius: const BorderRadius.all(Radius.circular(6)),
-                                  ),
-                                  child: Row(
-                                    children: const [
-                                      Text("Chicken Kebab", style: TextStyle(color: Color(0xFF414141))),
-                                      Spacer(),
-                                      Text("Appetizer", style: TextStyle(color: Color(0xFF414141)))
-                                    ],
-                                  ),
-                                ),
-                              ]
-                            ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Row(
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () {
-                                      // Respond to button press
-                                  },
-                                  icon: const Icon(Icons.add, size: 18),
-                                  label: const Text("Add Recipe"),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.green, // Background color
-                                  ),
-                                ),
-                                const Spacer(),
-                                ElevatedButton.icon(
-                                  onPressed: () {
-                                      // Respond to button press
-                                  },
-                                  icon: const Icon(Icons.arrow_forward, size: 18),
-                                  label: const Text("Browse"),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: primaryColor, // Background color
-                                  ),
-                                )
-                              ],
-                            )
-                          )
-                        ]
-                      ),
-                    ),
-                  ),
-                ]
-              ),
+              child: ListRecipe(data: _listRecipeList)
             ), 
             Container(
               width: fullWidth,
