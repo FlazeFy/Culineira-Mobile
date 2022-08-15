@@ -16,8 +16,11 @@ class RecipesPage extends StatefulWidget {
 }
 
 class _RecipesPageState extends State<RecipesPage> {
+  //Model
   List<recipeModel> _recipeList = <recipeModel>[];
+  List<recipeModel> _newRecipeList = <recipeModel>[];
 
+  //Controller
   Future getAllRecipe() async {
     var connection =  await setDatabase();
     _recipeList = <recipeModel>[];
@@ -42,8 +45,35 @@ class _RecipesPageState extends State<RecipesPage> {
         recipeModels.recipe_type = results['recipes']['recipe_type'];
         recipeModels.recipe_url = results['recipes']['recipe_url'];
         recipeModels.user_image = results['users']['image_url'];
+        recipeModels.created_at = results['recipes']['created_at'];
 
         _recipeList.add(recipeModels);
+      });
+    });
+  }
+
+  Future getNewRecipe() async {
+    var connection =  await setDatabase();
+    _newRecipeList = <recipeModel>[];
+    
+    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    "SELECT recipes.id, recipes.recipe_name, users.username, recipes.recipe_url, users.image_url, recipes.created_at, extract(day from now()-recipes.created_at) as days " 
+    "FROM public.recipes join public.users on public.recipes.user_id = public.users.id " 
+    "WHERE extract(day from now()-recipes.created_at) < 8 "
+    "ORDER BY days asc");
+
+    results.forEach((results){
+      setState((){
+        var recipeModels = recipeModel();
+        
+        recipeModels.id = results['recipes']['id'];
+        recipeModels.recipe_name = results['recipes']['recipe_name'];
+        recipeModels.username = results['users']['username'];
+        recipeModels.recipe_url = results['recipes']['recipe_url'];
+        recipeModels.user_image = results['users']['image_url'];
+        recipeModels.created_at = results['recipes']['created_at'];
+
+        _newRecipeList.add(recipeModels);
       });
     });
   }
@@ -52,6 +82,7 @@ class _RecipesPageState extends State<RecipesPage> {
   void initState(){
     super.initState();
     getAllRecipe();
+    getNewRecipe(); //This week
   }
 
   @override
@@ -142,7 +173,7 @@ class _RecipesPageState extends State<RecipesPage> {
                 ],
               ),
             ),
-            NewRecipe(),
+            NewRecipe(data: _newRecipeList),
             UnfinishedRecipe(),
             AllRecipe(data: _recipeList)       
           ]

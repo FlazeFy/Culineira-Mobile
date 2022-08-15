@@ -1,6 +1,6 @@
 import 'package:culineira/community/index.dart';
 import 'package:culineira/kitchen/index.dart';
-import 'package:culineira/profile/ProfilePage.dart';
+import 'package:culineira/profile/index.dart';
 import 'package:culineira/recipe/index.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';

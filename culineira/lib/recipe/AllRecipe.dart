@@ -26,6 +26,14 @@ class _AllRecipeState extends State<AllRecipe> {
           padding: const EdgeInsets.only(top: 20, bottom: 60),
           itemCount : _recipeList.length,
           itemBuilder: (context, index){
+
+            //Count total days between 2 date
+            int daysBetween(DateTime from, DateTime to) {
+              from = DateTime(from.year, from.month, from.day);
+              to = DateTime(to.year, to.month, to.day);
+              return (to.difference(from).inHours / 24).round();
+            }
+            
             return GestureDetector( 
               onTap: () async {
                 passIdRecipe = _recipeList[index].id.toString();
@@ -128,6 +136,9 @@ class _AllRecipeState extends State<AllRecipe> {
                             Container(
                               child: Text(_recipeList[index].recipe_name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
                             ),
+                            // Container(
+                            //   child: Text(daysBetween(_recipeList[index].created_at, DateTime.now()).toString(), style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15))
+                            // ),
                             Container(
                               margin: const EdgeInsets.only(right: 10, top: 5),
                               width: fullWidth*0.5,
