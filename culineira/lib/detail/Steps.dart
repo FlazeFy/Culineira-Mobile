@@ -1,3 +1,4 @@
+import 'package:culineira/detail/comment/index.dart';
 import 'package:culineira/main.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,6 @@ class _StepsState extends State<Steps> {
   Widget build(BuildContext context) {
     double fullHeight =  MediaQuery.of(context).size.height;
     double fullWidth =  MediaQuery.of(context).size.width;
-    int count = 0;
     var _stepsList = widget.data;
 
     return ListView.builder(
@@ -47,7 +47,7 @@ class _StepsState extends State<Steps> {
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 5),
-                  child: Text("Steps #${count.toString()}", style: TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.w500))
+                  child: Text("Steps #${index + 1}", style: TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.w500))
                 ),
                 Text(_stepsList[index].steps_body, style: TextStyle(color: iconMainColor)),
                 Row(
@@ -57,7 +57,7 @@ class _StepsState extends State<Steps> {
                       onPressed: (){
                         Navigator.push(context, 
                         MaterialPageRoute(
-                          builder: (BuildContext context)=>Expansiontile())
+                          builder: (BuildContext context)=> CommentPage(passIdSteps: _stepsList[index].id, stepsNo: index + 1, steps_body: _stepsList[index].steps_body))
                         );
                       },
                       icon: Icon(Icons.chat_bubble, size: 18, color: primaryColor),
@@ -72,8 +72,7 @@ class _StepsState extends State<Steps> {
           );
         }
         
-        count++;
-        if(count == 1){
+        if(index == 0){
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -168,25 +167,6 @@ class _StepsState extends State<Steps> {
           );
         }
       }
-    );
-  }
-}
-
-class Expansiontile extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'Steps #1 '
-        ),
-      ),
-      body: ListView(
-        children: [
-
-        ],
-      )
     );
   }
 }

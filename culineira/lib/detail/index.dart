@@ -118,7 +118,7 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     return Scaffold(
-       appBar: AppBar(
+      appBar: AppBar(
         title: Row(
           
         ),
