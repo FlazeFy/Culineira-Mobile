@@ -3,8 +3,9 @@ import 'package:culineira/main.dart';
 import 'package:flutter/material.dart';
 
 class Steps extends StatefulWidget {
-  Steps({Key key, this.data}) : super(key: key);
+  Steps({Key key, this.data, this.recipeOwner}) : super(key: key);
   var data;
+  int recipeOwner;
 
   @override
   _StepsState createState() => _StepsState();
@@ -25,7 +26,7 @@ class _StepsState extends State<Steps> {
         Widget stepsBox(){
           return Container(
             margin: const EdgeInsets.only(bottom: 10, right: 10),
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(top: 20, left: 15, right: 15),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -50,23 +51,21 @@ class _StepsState extends State<Steps> {
                   child: Text("Steps #${index + 1}", style: TextStyle(color: primaryColor, fontSize: 16, fontWeight: FontWeight.w500))
                 ),
                 Text(_stepsList[index].steps_body, style: TextStyle(color: iconMainColor)),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    TextButton.icon(
-                      onPressed: (){
-                        Navigator.push(context, 
-                        MaterialPageRoute(
-                          builder: (BuildContext context)=> CommentPage(passIdSteps: _stepsList[index].id, stepsNo: index + 1, steps_body: _stepsList[index].steps_body))
-                        );
-                      },
-                      icon: Icon(Icons.chat_bubble, size: 18, color: primaryColor),
-                      label: Text(
-                        'Comment', style: TextStyle(color: primaryColor),
-                      ),
+                Container(
+                  alignment: Alignment.bottomLeft,
+                  child: TextButton.icon(
+                    onPressed: (){
+                      Navigator.push(context, 
+                      MaterialPageRoute(
+                        builder: (BuildContext context)=> CommentPage(passIdSteps: _stepsList[index].id, stepsNo: index + 1, steps_body: _stepsList[index].steps_body, recipeOwner: widget.recipeOwner))
+                      );
+                    },
+                    icon: Icon(Icons.chat_bubble, size: 18, color: primaryColor),
+                    label: Text(
+                      'Comment', style: TextStyle(color: primaryColor),
                     ),
-                  ],
-                ),
+                  ),
+                )
               ],
             )
           );

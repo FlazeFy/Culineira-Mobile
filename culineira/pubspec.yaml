@@ -35,6 +35,8 @@ dependencies:
   postgres: ^2.4.6
   table_calendar: ^3.0.6
   query: ^2.0.0
+  full_screen_menu: ^1.0.0
+  flutter_chat_bubble: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

@@ -6,6 +6,7 @@ class commentModel{
   String username;
   String comment_body; 
   String comment_image; 
+  String image_url; 
   DateTime created_at;
   DateTime updated_at;
    
@@ -19,6 +20,7 @@ class commentModel{
     mapping['username'] = username;
     mapping['comment_body'] = comment_body;
     mapping['comment_image'] = comment_image;
+    mapping['image_url'] = image_url;
     mapping['created_at'] = created_at;
     mapping['updated_at'] = updated_at;
     

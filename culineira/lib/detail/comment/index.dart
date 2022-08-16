@@ -1,16 +1,18 @@
-import 'dart:ui';
-
 import 'package:culineira/database/model/comment.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chat_bubble/bubble_type.dart';
+import 'package:flutter_chat_bubble/chat_bubble.dart';
+import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_1.dart';
+import 'package:full_screen_menu/full_screen_menu.dart';
 
 class CommentPage extends StatefulWidget {
-  CommentPage({Key key, this.passIdSteps, this.stepsNo, this.steps_body}) : super(key: key);
+  CommentPage({Key key, this.passIdSteps, this.stepsNo, this.steps_body, this.recipeOwner}) : super(key: key);
   int passIdSteps;
   int stepsNo;
+  int recipeOwner;
   String steps_body;
-
 
   @override
   _CommentPageState createState() => _CommentPageState();
@@ -35,9 +37,11 @@ class _CommentPageState extends State<CommentPage> {
         var commentModels = commentModel();
         
         commentModels.id = results['comment']['id'];
+        commentModels.users_id = results['users']['id'];
         commentModels.username = results['users']['username'];
         commentModels.comment_body = results['comment']['comment_body'];
         commentModels.comment_image = results['comment']['comment_image'];
+        commentModels.image_url = results['users']['image_url'];
         commentModels.created_at = results['comment']['created_at'];
 
         _commentList.add(commentModels);
@@ -63,7 +67,7 @@ class _CommentPageState extends State<CommentPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Comment"),
+        title: const Text("Comment"),
         actions: [
           
         ],
@@ -71,11 +75,10 @@ class _CommentPageState extends State<CommentPage> {
       ),
       body: SizedBox(
         height: fullHeight,
-        child: ListView(
-          padding: EdgeInsets.zero,
+        child: Column(
           children: [
             Container(
-              margin: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(15),
               padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -105,12 +108,6 @@ class _CommentPageState extends State<CommentPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       TextButton.icon(
-                        onPressed: (){
-                          Navigator.push(context, 
-                          MaterialPageRoute(
-                            builder: (BuildContext context)=> CommentPage())
-                          );
-                        },
                         icon: Icon(Icons.chat_bubble, size: 18, color: primaryColor),
                         label: Text(
                           'Comment', style: TextStyle(color: primaryColor),
@@ -121,51 +118,169 @@ class _CommentPageState extends State<CommentPage> {
                 ],
               )
             ),
-            Container(
-              height: fullHeight*0.7,
-              width: fullWidth,
+            Flexible(
               child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 15),
                 itemCount : _commentList.length,
                 itemBuilder: (context, index){
-                  return Container(
-                    alignment: Alignment.centerLeft,
-                    width: 20,
-                    padding: EdgeInsets.all(10),
-                    margin: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color.fromARGB(255, 128, 128, 128).withOpacity(0.3),
-                          blurRadius: 10.0, // soften the shadow
-                          spreadRadius: 0.0, //extend the shadow
-                          offset: const Offset(
-                            5.0, // Move to right 10  horizontally
-                            5.0, // Move to bottom 10 Vertically
-                          ),
+                  //Store property.
+                  var sender; 
+                  var position;
+                  String name;
+
+                  Widget getProfileImage(){
+                    return ClipRRect(
+                      borderRadius: BorderRadius.circular(60),
+                      child: Image.asset(
+                      'assets/storage/${_commentList[index].image_url}', width: 40),
+                    );
+                  }
+
+                  Widget getChatBubble(){
+                    return ChatBubble(
+                      clipper: ChatBubbleClipper1(type: sender),
+                      margin: const EdgeInsets.only(top: 20),
+                      alignment: position,
+                      backGroundColor: Colors.white,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 5),
+                        constraints: BoxConstraints(
+                          maxWidth: MediaQuery.of(context).size.width * 0.7,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: "${name} ",
+                                    style: TextStyle(color: primaryColor, fontSize: 15)
+                                  ),
+                                  TextSpan(
+                                    text: " ${getDate(_commentList[index].created_at.toUtc())}",
+                                    style: const TextStyle(fontSize: 12, color: Colors.grey)
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(top: 10),
+                              child: Text(
+                                _commentList[index].comment_body,
+                                style: const TextStyle(color: const Color(0xFF414141)),
+                              ),
+                            )
+                          ],
                         )
-                      ],
-                    ),
-                    child: Container(
-                      width: fullWidth*0.55, 
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Text(_commentList[index].username, style: TextStyle(color: primaryColor)),
-                              Spacer(),
-                              Text(getDate(_commentList[index].created_at.toUtc()), style: TextStyle(color: Colors.grey, fontSize: 12)),
-                            ]
-                          ),
-                          Text(_commentList[index].comment_body, style: TextStyle(color: iconMainColor))
-                        ],
-                      )
-                    )
-                  );
+                      ),
+                    );
+                  }
+
+                  //Get comment by sender.
+                  if(_commentList[index].users_id == passIdUser){
+                    sender = BubbleType.sendBubble;
+                    position = Alignment.topRight;
+                    name = "You";
+                    return Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        getChatBubble(),
+                        getProfileImage()
+                      ]
+                    );
+                  // } else if (_commentList[index].users_id == widget.recipeOwner){
+                  //   sender = BubbleType.receiverBubble;
+                  //   position = Alignment.topLeft;
+                  //   name = "Contributor";
+                  // NOTE : Comment from contributor must only have bordered chat bubble. But this plugin doesnt support with border. 
+                  } else {
+                    sender = BubbleType.receiverBubble;
+                    position = Alignment.topLeft;
+                    name = _commentList[index].username;
+                    return Row(
+                      children: [
+                        getProfileImage(),
+                        getChatBubble(),
+                      ]
+                    );
+                  }
                 }
               )
-            )
+            ),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Container(
+                padding: const EdgeInsets.only(left: 10,bottom: 10,top: 10),
+                height: 60,
+                width: double.infinity,
+                child: Row(
+                  children: <Widget>[
+                    GestureDetector(
+                      onTap: (){
+                        //Bug : not close after back button is pressed
+                        FullScreenMenu.show(
+                          context,
+                          backgroundColor: Colors.white,
+                          items: [
+                            FSMenuItem(
+                              icon: const Icon(Icons.mic, color: Colors.white),
+                              text: Text('Audio', style: TextStyle(color: primaryColor)),
+                              gradient: blueGradient,
+                            ),
+                            FSMenuItem(
+                              icon: const Icon(Icons.file_copy, color: Colors.white),
+                              text: Text('Document', style: TextStyle(color: primaryColor)),
+                              gradient: purpleGradient,
+                            ),
+                            FSMenuItem(
+                              icon: const Icon(Icons.image, color: Colors.white),
+                              text: Text('Image', style: TextStyle(color: primaryColor)),
+                              gradient: redGradient,
+                            ),
+                          ],
+                        );
+                      },
+                      child: Container(
+                        height: 30,
+                        width: 30,
+                        decoration: BoxDecoration(
+                          color: primaryColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: const Icon(Icons.add, color: Colors.white, size: 20), //Icon must be paperclip
+                      ),
+                    ),
+                    const SizedBox(width: 15,),
+                    Expanded(
+                      child: const TextField(
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.all(5),
+                          hintText: "Type your comment",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          focusColor: Colors.grey,
+                          fillColor: Colors.white,
+                          filled: true,
+                          border: OutlineInputBorder()
+                        ),
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    const SizedBox(width: 15,),
+                    FloatingActionButton(
+                      onPressed: () async{
+                        
+                      },
+                      child: const Icon(Icons.send,color: Colors.white,size: 18,),
+                      backgroundColor: primaryColor,
+                      elevation: 0,
+                    ),
+                  ],
+                  
+                ),
+              ),
+            ),
           ],
         ),
       ),

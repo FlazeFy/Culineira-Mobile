@@ -36,6 +36,7 @@ class _DetailPageState extends State<DetailPage> {
         recipeModels.id = results['recipes']['id'];
         recipeModels.recipe_name = results['recipes']['recipe_name'];
         recipeModels.username = results['users']['username'];
+        recipeModels.user_id = results['users']['id'];
         recipeModels.recipe_calorie = results['recipes']['recipe_calorie'];
         recipeModels.recipe_time_spend = results['recipes']['recipe_time_spend'];
         recipeModels.recipe_main_ing = results['recipes']['recipe_main_ing'];
@@ -438,7 +439,7 @@ class _DetailPageState extends State<DetailPage> {
                             ],
                           ),
                           Ingredients(data : _ingredientsList),
-                          Steps(data : _stepsList),
+                          Steps(data : _stepsList, recipeOwner: _recipeList[index].user_id),
                           const Center(
                             child: Text("It's cloudy here"),
                           ),
