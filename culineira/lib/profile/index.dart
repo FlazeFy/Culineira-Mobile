@@ -1,11 +1,11 @@
 import 'package:culineira/database/model/user.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/profile/apps.dart';
+import 'package:culineira/profile/edit/index.dart';
 import 'package:culineira/profile/others.dart';
 import 'package:culineira/profile/setting.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_switch/flutter_switch.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key key}) : super(key: key);
@@ -126,7 +126,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: IconButton(
                           icon: const Icon(Icons.edit, size: 26),
                           color: iconMainColor,
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (BuildContext context) => EditProfilePage()));
+                          },
                         ),
                       ),
                     ]
