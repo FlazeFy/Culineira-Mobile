@@ -91,6 +91,7 @@ class _DetailPageState extends State<DetailPage> {
         var stepsModels = stepsModel();
         
         stepsModels.id = results['steps']['id'];
+        stepsModels.recipe_id = results['steps']['recipe_id'];
         stepsModels.steps_body = results['steps']['steps_body'];
         stepsModels.steps_image = results['steps']['steps_image'];
         stepsModels.steps_type = results['steps']['steps_type'];

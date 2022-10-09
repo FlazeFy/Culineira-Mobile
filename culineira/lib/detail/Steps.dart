@@ -57,7 +57,7 @@ class _StepsState extends State<Steps> {
                     onPressed: (){
                       Navigator.push(context, 
                       MaterialPageRoute(
-                        builder: (BuildContext context)=> CommentPage(passIdSteps: _stepsList[index].id, stepsNo: index + 1, steps_body: _stepsList[index].steps_body, recipeOwner: widget.recipeOwner))
+                        builder: (BuildContext context)=> CommentPage(passIdRecipe: _stepsList[index].recipe_id, passIdSteps: _stepsList[index].id, stepsNo: index + 1, steps_body: _stepsList[index].steps_body, recipeOwner: widget.recipeOwner))
                       );
                     },
                     icon: Icon(Icons.chat_bubble, size: 18, color: primaryColor),
