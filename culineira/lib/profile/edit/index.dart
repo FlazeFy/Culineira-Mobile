@@ -2,6 +2,7 @@ import 'package:culineira/database/model/user.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({Key key}) : super(key: key);
@@ -13,6 +14,19 @@ class EditProfilePage extends StatefulWidget {
 class _EditProfilePageState extends State<EditProfilePage> {
   //Model
   List<userModel> _userList = <userModel>[];
+
+  //Text field contoller.
+  final _usernameCtrl = TextEditingController();
+  final _emailCtrl = TextEditingController();
+  final _passwordCtrl = TextEditingController();
+  final _descriptionCtrl = TextEditingController();
+  final _countryCtrl = TextEditingController();
+
+  final _scmFacebook = TextEditingController();
+  final _scmYoutube = TextEditingController();
+  final _scmTiktok = TextEditingController();
+  final _scmInstagram = TextEditingController();
+  final _scmLinkedin = TextEditingController();
 
   //Controller
   Future getFullProfile() async {
@@ -34,6 +48,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
         userModels.country = results['users']['country'];
         userModels.description = results['users']['description'];
         userModels.image_url = results['users']['image_url'];
+        userModels.created_at = results['users']['created_at'];
+        userModels.updated_at = results['users']['updated_at'];
 
         //Social media.
         userModels.scmFacebook = results['socmed']['socmed_facebook'];
@@ -111,6 +127,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _usernameCtrl,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.only(
                                       top: 5, left: 10, right: 10),
@@ -133,6 +150,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _emailCtrl,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -157,6 +175,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _passwordCtrl,
                                 obscureText: true,
                                 enableSuggestions: false,
                                 autocorrect: false,
@@ -182,6 +201,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _countryCtrl,
                                 decoration: InputDecoration(
                                   contentPadding: const EdgeInsets.only(
                                       top: 5, left: 10, right: 10),
@@ -204,6 +224,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _descriptionCtrl,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 maxLines: 8,
@@ -220,6 +241,36 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                               ),
                             ),
+                            Row(
+                              children: [
+                                ElevatedButton.icon(
+                                  onPressed: () async {
+                                    //Update profile
+                                    var connection = await setDatabase();
+                                    var date = DateFormat("yyyy-MM-dd h:m:s")
+                                        .format(DateTime.now())
+                                        .toString();
+
+                                    await connection.execute(
+                                        "UPDATE public.users SET username='${_usernameCtrl.text}', email='${_emailCtrl.text}', password='${_passwordCtrl.text}', description='${_descriptionCtrl.text}', country='${_countryCtrl.text}', updated_at='${date}' "
+                                        "WHERE id = ${passIdUser};");
+                                  },
+                                  icon: Icon(Icons.save, size: 18),
+                                  label: Text("Update"),
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.green, // Background color
+                                  ),
+                                ),
+                                Spacer(),
+                                Container(
+                                  margin: EdgeInsets.only(top: 5),
+                                  child: Column(children: [
+                                    Text("Joined Since ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].created_at)}", style: TextStyle(fontSize: 12, color: Color(0xFF414141), fontWeight: FontWeight.bold)),
+                                    Text("Last Updated ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].updated_at)}", style: TextStyle(fontSize: 12, color: Color(0xFF414141), fontWeight: FontWeight.bold))
+                                  ]),
+                                )
+                              ]
+                            )
                           ],
                         )),
                     //Profile
@@ -265,6 +316,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _scmFacebook,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -300,6 +352,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _scmYoutube,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -334,6 +387,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _scmTiktok,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -370,6 +424,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _scmInstagram,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -405,6 +460,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               margin: const EdgeInsets.symmetric(vertical: 5),
                               height: 40,
                               child: TextField(
+                                controller: _scmLinkedin,
                                 enableSuggestions: false,
                                 autocorrect: false,
                                 decoration: InputDecoration(
@@ -418,6 +474,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                   ),
                                   hintText: _userList[index].scmLinkedIn,
                                 ),
+                              ),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () async {
+                                //Update social media
+                                var connection = await setDatabase();
+                                var date = DateFormat("yyyy-MM-dd h:m:s")
+                                    .format(DateTime.now())
+                                    .toString();
+
+                                await connection.execute(
+                                    "UPDATE public.socmed SET socmed_facebook='${_scmFacebook.text}', socmed_youtube='${_scmYoutube.text}', socmed_tiktok='${_scmTiktok.text}', socmed_instagram='${_scmInstagram.text}', socmed_linkedin='${_scmLinkedin.text}', updated_at='${date}' "
+                                    "WHERE id = ${passIdUser};");
+                              },
+                              icon: Icon(Icons.save, size: 18),
+                              label: Text("Update"),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green, // Background color
                               ),
                             ),
                           ],
