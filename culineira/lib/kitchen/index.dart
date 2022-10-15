@@ -192,7 +192,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                     ),
                                   ),
                                 ),
-                                Text("Description",
+                                Text("Description (Optional)",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
