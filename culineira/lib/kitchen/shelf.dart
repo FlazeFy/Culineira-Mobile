@@ -63,7 +63,178 @@ class _ShelfState extends State<Shelf> {
                               fullWidth * 0.03, 0.0, 0.0),
                           child: IconButton(
                             icon: const Icon(Icons.edit, size: 20),
-                            onPressed: () {},
+                            onPressed: () => showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => AlertDialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                contentPadding: EdgeInsets.all(15),
+                                content: SizedBox(
+                                  height: 360,
+                                  width: fullWidth,
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        child: Ink(
+                                          child: IconButton(
+                                            icon: const Icon(Icons.close,
+                                                size: 36),
+                                            color: dangerColor,
+                                            onPressed: () {
+                                              Navigator.pop(context);
+                                            },
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        alignment: Alignment.center,
+                                        margin:
+                                            EdgeInsets.symmetric(vertical: 15),
+                                        child: Text("Edit Item",
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600)),
+                                      ),
+                                      Text("Name",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500)),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        height: 40,
+                                        child: TextField(
+                                          controller: _itemNameCtrl,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    top: 5,
+                                                    left: 10,
+                                                    right: 10),
+                                            border: const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 205, 205, 205),
+                                                  width: 2.0),
+                                            ),
+                                            hintText:
+                                                _shelfList[index].item_name,
+                                          ),
+                                        ),
+                                      ),
+                                      Text("Description (Optional)",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500)),
+                                      Container(
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        height: 80,
+                                        child: TextField(
+                                          controller: _itemDescriptionCtrl,
+                                          enableSuggestions: false,
+                                          autocorrect: false,
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                const EdgeInsets.only(
+                                                    top: 5,
+                                                    left: 10,
+                                                    right: 10),
+                                            border: const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                  color: Color.fromARGB(
+                                                      255, 205, 205, 205),
+                                                  width: 2.0),
+                                            ),
+                                            hintText: _shelfList[index]
+                                                .item_description,
+                                          ),
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            width: 100,
+                                            height: 50,
+                                            child: SpinBox(
+                                              min: 1,
+                                              max: 220,
+                                              value:
+                                                  _shelfList[index].item_qty *
+                                                      1.0,
+                                              spacing: 1,
+                                              textStyle: const TextStyle(
+                                                fontSize: 16.0,
+                                              ),
+                                              onChanged: (value) =>
+                                                  _itemQtyCtrl = value.toInt(),
+                                              decoration: const InputDecoration(
+                                                  labelText: 'Qty'),
+                                            ),
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 10),
+                                            child: ElevatedButton.icon(
+                                              onPressed: () async {
+                                                //Inital variable.
+                                                var itemName;
+                                                var itemDesc;
+                                                int itemQty;
+
+                                                //Edit item in shelf
+                                                var connection =
+                                                    await setDatabase();
+                                                var date = DateFormat(
+                                                        "yyyy-MM-dd h:m:s")
+                                                    .format(DateTime.now())
+                                                    .toString();
+
+                                                //Validate empty
+                                                if (_itemNameCtrl.text.isEmpty) {
+                                                  itemName = _shelfList[index].item_name;
+                                                } else {
+                                                  itemName = _itemNameCtrl.text;
+                                                }
+                                                if (_itemDescriptionCtrl.text.isEmpty) {
+                                                  itemDesc = _shelfList[index].item_description;
+                                                } else {
+                                                  itemDesc = _itemDescriptionCtrl.text;
+                                                }
+                                                if (_itemQtyCtrl == null) {
+                                                  itemQty = _shelfList[index].item_qty;
+                                                } else {
+                                                  itemQty = _itemQtyCtrl;
+                                                }
+
+                                                await connection.execute(
+                                                    "UPDATE public.shelf SET item_name='${itemName}', item_description='${itemDesc}', item_qty=${itemQty}, updated_at='${date}' "
+                                                    "WHERE id = ${_shelfList[index].id};");
+
+                                                Navigator.pop(context);
+                                              },
+                                              icon: Icon(Icons.save, size: 18),
+                                              label: Text("Save Changes"),
+                                              style: ElevatedButton.styleFrom(
+                                                primary: Colors
+                                                    .green, // Background color
+                                              ),
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],

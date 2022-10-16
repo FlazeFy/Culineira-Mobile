@@ -33,7 +33,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
     var connection = await setDatabase();
     _userList = <userModel>[];
 
-    List<Map<String,Map<String,dynamic>>> results = await connection.mappedResultsQuery(
+    List<
+        Map<
+            String,
+            Map<String,
+                dynamic>>> results = await connection.mappedResultsQuery(
         "SELECT * FROM public.users JOIN public.socmed ON socmed.users_id = users.id "
         "WHERE users.id = ${passIdUser} ");
 
@@ -101,7 +105,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15.0)),
                           boxShadow: [
                             BoxShadow(
                               color: const Color.fromARGB(255, 128, 128, 128)
@@ -241,36 +246,80 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 ),
                               ),
                             ),
-                            Row(
-                              children: [
-                                ElevatedButton.icon(
-                                  onPressed: () async {
-                                    //Update profile
-                                    var connection = await setDatabase();
-                                    var date = DateFormat("yyyy-MM-dd h:m:s")
-                                        .format(DateTime.now())
-                                        .toString();
+                            Row(children: [
+                              ElevatedButton.icon(
+                                onPressed: () async {
+                                  //Initial variable.
+                                  var username = "";
+                                  var email = "";
+                                  var password = "";
+                                  var country = "";
+                                  var description = "";
 
-                                    await connection.execute(
-                                        "UPDATE public.users SET username='${_usernameCtrl.text}', email='${_emailCtrl.text}', password='${_passwordCtrl.text}', description='${_descriptionCtrl.text}', country='${_countryCtrl.text}', updated_at='${date}' "
-                                        "WHERE id = ${passIdUser};");
-                                  },
-                                  icon: Icon(Icons.save, size: 18),
-                                  label: Text("Update"),
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.green, // Background color
-                                  ),
+                                  //Update profile
+                                  var connection = await setDatabase();
+                                  var date = DateFormat("yyyy-MM-dd h:m:s")
+                                      .format(DateTime.now())
+                                      .toString();
+
+                                  //Validate empty
+                                  if (_usernameCtrl.text.isEmpty) {
+                                    username = _userList[index].username;
+                                  } else {
+                                    username = _usernameCtrl.text;
+                                  }
+                                  if ((_emailCtrl.text.isEmpty) &&
+                                      (_passwordCtrl.text.length < 10)) {
+                                    email = _userList[index].email;
+                                  } else {
+                                    email = _emailCtrl.text;
+                                  }
+                                  if ((_passwordCtrl.text.isEmpty) &&
+                                      (_passwordCtrl.text.length < 6)) {
+                                    password = _userList[index].password;
+                                  } else {
+                                    password = _passwordCtrl.text;
+                                  }
+                                  if (_descriptionCtrl.text.isEmpty) {
+                                    description = _userList[index].description;
+                                  } else {
+                                    description = _descriptionCtrl.text;
+                                  }
+                                  if (_countryCtrl.text.isEmpty) {
+                                    country = _userList[index].country;
+                                  } else {
+                                    country = _countryCtrl.text;
+                                  }
+
+                                  await connection.execute(
+                                      "UPDATE public.users SET username='${username}', email='${email}', password='${password}', description='${description}', country='${country}', updated_at='${date}' "
+                                      "WHERE id = ${passIdUser};");
+                                },
+                                icon: Icon(Icons.save, size: 18),
+                                label: Text("Update"),
+                                style: ElevatedButton.styleFrom(
+                                  primary: Colors.green, // Background color
                                 ),
-                                Spacer(),
-                                Container(
-                                  margin: EdgeInsets.only(top: 5),
-                                  child: Column(children: [
-                                    Text("Joined Since ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].created_at)}", style: TextStyle(fontSize: 12, color: Color(0xFF414141), fontWeight: FontWeight.bold)),
-                                    Text("Last Updated ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].updated_at)}", style: TextStyle(fontSize: 12, color: Color(0xFF414141), fontWeight: FontWeight.bold))
-                                  ]),
-                                )
-                              ]
-                            )
+                              ),
+                              Spacer(),
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                child: Column(children: [
+                                  Text(
+                                      "Joined Since ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].created_at)}",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFF414141),
+                                          fontWeight: FontWeight.bold)),
+                                  Text(
+                                      "Last Updated ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].updated_at)}",
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: Color(0xFF414141),
+                                          fontWeight: FontWeight.bold))
+                                ]),
+                              )
+                            ])
                           ],
                         )),
                     //Profile
@@ -280,7 +329,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(15.0)),
                           boxShadow: [
                             BoxShadow(
                               color: const Color.fromARGB(255, 128, 128, 128)
