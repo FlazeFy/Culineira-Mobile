@@ -528,14 +528,48 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             ),
                             ElevatedButton.icon(
                               onPressed: () async {
+                                //Initial variable.
+                                var facebook = "";
+                                var youtube = "";
+                                var tiktok = "";
+                                var instagram = "";
+                                var linkedin = "";
+
                                 //Update social media
                                 var connection = await setDatabase();
                                 var date = DateFormat("yyyy-MM-dd h:m:s")
                                     .format(DateTime.now())
                                     .toString();
 
+                                //Validate empty
+                                if (_scmFacebook.text.isEmpty) {
+                                  facebook = _userList[index].scmFacebook;
+                                } else {
+                                  facebook = _scmFacebook.text;
+                                }
+                                if (_scmYoutube.text.isEmpty) {
+                                  youtube = _userList[index].scmYoutube;
+                                } else {
+                                  youtube = _scmYoutube.text;
+                                }
+                                if (_scmTiktok.text.isEmpty) {
+                                  tiktok = _userList[index].scmTiktok;
+                                } else {
+                                  tiktok = _scmTiktok.text;
+                                }
+                                if (_scmInstagram.text.isEmpty) {
+                                  instagram = _userList[index].scmInstagram;
+                                } else {
+                                  instagram = _scmInstagram.text;
+                                }
+                                if (_scmLinkedin.text.isEmpty) {
+                                  linkedin = _userList[index].scmLinkedIn;
+                                } else {
+                                  linkedin = _scmLinkedin.text;
+                                }
+
                                 await connection.execute(
-                                    "UPDATE public.socmed SET socmed_facebook='${_scmFacebook.text}', socmed_youtube='${_scmYoutube.text}', socmed_tiktok='${_scmTiktok.text}', socmed_instagram='${_scmInstagram.text}', socmed_linkedin='${_scmLinkedin.text}', updated_at='${date}' "
+                                    "UPDATE public.socmed SET socmed_facebook='${facebook}', socmed_youtube='${youtube}', socmed_tiktok='${tiktok}', socmed_instagram='${instagram}', socmed_linkedin='${linkedin}', updated_at='${date}' "
                                     "WHERE id = ${passIdUser};");
                               },
                               icon: Icon(Icons.save, size: 18),
