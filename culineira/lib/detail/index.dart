@@ -7,6 +7,7 @@ import 'package:culineira/detail/Steps.dart';
 import 'package:culineira/main.dart';
 import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class DetailPage extends StatefulWidget {
   const DetailPage({Key key}) : super(key: key);
@@ -21,9 +22,8 @@ class _DetailPageState extends State<DetailPage> {
   List<ingredientsModel> _ingredientsList = <ingredientsModel>[];
   List<stepsModel> _stepsList = <stepsModel>[];
   List<likesModel> _likeList = <likesModel>[];
-
-  int tLikes;
-  int mylike;
+  List<likesModel> _mylike = <likesModel>[];
+  int myLikeId = 0;
 
   //Controller.
   Future getRecipeId() async {
@@ -95,6 +95,7 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getLikes() async {
+    //Get total recipe likes.
     var connection = await setDatabase();
     _likeList = <likesModel>[];
 
@@ -114,7 +115,9 @@ class _DetailPageState extends State<DetailPage> {
   }
 
   Future getMyLikes() async {
+    //Get user likes data, for set the like or dislike button.
     var connection = await setDatabase();
+    _mylike = <likesModel>[];
 
     List<Map<String, Map<String, dynamic>>> results =
         await connection.mappedResultsQuery("SELECT * FROM public.likes "
@@ -122,7 +125,12 @@ class _DetailPageState extends State<DetailPage> {
 
     results.forEach((results) {
       setState(() {
-        mylike = results['likes']['id'];
+        var mylikeModel = likesModel();
+
+        mylikeModel.id = results['likes']['id'];
+        myLikeId = results['likes']['id'];
+
+        _mylike.add(mylikeModel);
       });
     });
   }
@@ -162,6 +170,7 @@ class _DetailPageState extends State<DetailPage> {
     getIngredients();
     getSteps();
     getLikes();
+    getMyLikes();
   }
 
   @override
@@ -176,19 +185,31 @@ class _DetailPageState extends State<DetailPage> {
     }
 
     //Get like button.
-    Widget getLikeButton(count) {
-      if (count == 1) {
+    Widget getLikeButton(count, liked) {
+      if (liked == 1) {
         return TextButton.icon(
-          onPressed: () {
-            // Respond to button press
+          onPressed: () async {
+            //Dislike
+            var connection = await setDatabase();
+
+            await connection.execute("DELETE FROM public.likes "
+                "WHERE id = ${myLikeId};");
           },
           icon: Icon(Icons.favorite, size: 18, color: dangerColor),
           label: Text("${count}", style: TextStyle(color: dangerColor)),
         );
       } else {
         return TextButton.icon(
-          onPressed: () {
-            // Respond to button press
+          onPressed: () async {
+            //Like
+            var connection = await setDatabase();
+            var date = DateFormat("yyyy-MM-dd h:m:s")
+                .format(DateTime.now())
+                .toString();
+
+            await connection.execute("INSERT INTO public.likes( "
+                "recipe_id, users_id, created_at, updated_at) "
+                "VALUES (${passIdRecipe}, ${passIdUser}, '${date}', '${date}');");
           },
           icon: Icon(Icons.favorite_border_outlined,
               size: 18, color: dangerColor),
@@ -322,7 +343,8 @@ class _DetailPageState extends State<DetailPage> {
                                                     ],
                                                   ),
                                                 ),
-                                                getLikeButton(_likeList.length)
+                                                getLikeButton(_likeList.length,
+                                                    _mylike.length)
                                               ],
                                             ),
                                             Container(
