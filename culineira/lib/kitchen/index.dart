@@ -83,7 +83,11 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
     var connection = await setDatabase();
     _recipeInList = <recipeModel>[];
 
-    List<Map<String, Map<String, dynamic>>> results = await connection.mappedResultsQuery(
+    List<
+        Map<
+            String,
+            Map<String,
+                dynamic>>> results = await connection.mappedResultsQuery(
         "SELECT list_rel.id, list.id, recipes.recipe_name, recipes.recipe_type, list_rel.created_at FROM public.recipes "
         "JOIN public.list_rel on public.recipes.id = public.list_rel.recipe_id "
         "JOIN public.list on public.list.id = public.list_rel.list_id "
@@ -138,10 +142,10 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                       onPressed: () => showDialog<String>(
                         context: context,
                         builder: (BuildContext context) => AlertDialog(
-                          shape: RoundedRectangleBorder(
+                          shape: const RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          contentPadding: EdgeInsets.all(15),
+                          contentPadding: const EdgeInsets.all(15),
                           content: SizedBox(
                             height: 300,
                             width: fullWidth,
@@ -162,13 +166,14 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                 ),
                                 Container(
                                   alignment: Alignment.center,
-                                  margin: EdgeInsets.symmetric(vertical: 15),
-                                  child: Text("Add List",
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 15),
+                                  child: const Text("Add List",
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600)),
                                 ),
-                                Text("Name",
+                                const Text("Name",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
@@ -180,10 +185,10 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                     controller: _listNameCtrl,
                                     enableSuggestions: false,
                                     autocorrect: false,
-                                    decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.only(
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.only(
                                           top: 5, left: 10, right: 10),
-                                      border: const OutlineInputBorder(
+                                      border: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
                                                 255, 205, 205, 205),
@@ -192,7 +197,7 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                     ),
                                   ),
                                 ),
-                                Text("Description (Optional)",
+                                const Text("Description (Optional)",
                                     style: TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500)),
@@ -204,10 +209,10 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                                     controller: _listDescriptionCtrl,
                                     enableSuggestions: false,
                                     autocorrect: false,
-                                    decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.only(
+                                    decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.only(
                                           top: 5, left: 10, right: 10),
-                                      border: const OutlineInputBorder(
+                                      border: OutlineInputBorder(
                                         borderSide: BorderSide(
                                             color: Color.fromARGB(
                                                 255, 205, 205, 205),
@@ -221,7 +226,8 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
                           ),
                           actions: <Widget>[
                             Container(
-                              margin: EdgeInsets.symmetric(horizontal: 10),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 10),
                               child: ElevatedButton.icon(
                                 onPressed: () async {
                                   //Create List
@@ -237,8 +243,8 @@ class _MyKitchenPageState extends State<MyKitchenPage> {
 
                                   Navigator.pop(context);
                                 },
-                                icon: Icon(Icons.add, size: 18),
-                                label: Text("Create List"),
+                                icon: const Icon(Icons.add, size: 18),
+                                label: const Text("Create List"),
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.green, // Background color
                                 ),

@@ -295,25 +295,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                       "UPDATE public.users SET username='${username}', email='${email}', password='${password}', description='${description}', country='${country}', updated_at='${date}' "
                                       "WHERE id = ${passIdUser};");
                                 },
-                                icon: Icon(Icons.save, size: 18),
-                                label: Text("Update"),
+                                icon: const Icon(Icons.save, size: 18),
+                                label: const Text("Update"),
                                 style: ElevatedButton.styleFrom(
                                   primary: Colors.green, // Background color
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
-                                margin: EdgeInsets.only(top: 5),
+                                margin: const EdgeInsets.only(top: 5),
                                 child: Column(children: [
                                   Text(
                                       "Joined Since ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].created_at)}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF414141),
                                           fontWeight: FontWeight.bold)),
                                   Text(
                                       "Last Updated ${DateFormat("yyyy-MM-dd h:m:s").format(_userList[index].updated_at)}",
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontSize: 12,
                                           color: Color(0xFF414141),
                                           fontWeight: FontWeight.bold))
@@ -572,8 +572,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                     "UPDATE public.socmed SET socmed_facebook='${facebook}', socmed_youtube='${youtube}', socmed_tiktok='${tiktok}', socmed_instagram='${instagram}', socmed_linkedin='${linkedin}', updated_at='${date}' "
                                     "WHERE id = ${passIdUser};");
                               },
-                              icon: Icon(Icons.save, size: 18),
-                              label: Text("Update"),
+                              icon: const Icon(Icons.save, size: 18),
+                              label: const Text("Update"),
                               style: ElevatedButton.styleFrom(
                                 primary: Colors.green, // Background color
                               ),

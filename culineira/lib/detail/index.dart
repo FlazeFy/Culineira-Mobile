@@ -176,7 +176,7 @@ class _DetailPageState extends State<DetailPage> {
   @override
   Widget build(BuildContext context) {
     double fullHeight = MediaQuery.of(context).size.height;
-    double fullWidth = MediaQuery.of(context).size.width;
+    // double fullWidth = MediaQuery.of(context).size.width;
 
     getDate(DateTime datetime) {
       var formattedDate =
@@ -693,8 +693,8 @@ class _DetailPageState extends State<DetailPage> {
                                                 ),
                                                 Text(
                                                     _recipeList[index].username,
-                                                    style:
-                                                        TextStyle(fontSize: 14))
+                                                    style: const TextStyle(
+                                                        fontSize: 14))
                                               ]),
                                             )
                                           ]))

@@ -20,7 +20,7 @@ class _ShelfState extends State<Shelf> {
 
   @override
   Widget build(BuildContext context) {
-    double fullHeight = MediaQuery.of(context).size.height;
+    // double fullHeight = MediaQuery.of(context).size.height;
     double fullWidth = MediaQuery.of(context).size.width;
     int count = 0;
     var _shelfList = widget.data;
@@ -55,7 +55,7 @@ class _ShelfState extends State<Shelf> {
                       children: [
                         Text(
                             "${_shelfList[index].item_qty}x ${_shelfList[index].item_name}",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.w500, fontSize: 13)),
                         const Spacer(),
                         Container(
@@ -66,10 +66,10 @@ class _ShelfState extends State<Shelf> {
                             onPressed: () => showDialog<String>(
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
-                                contentPadding: EdgeInsets.all(15),
+                                contentPadding: const EdgeInsets.all(15),
                                 content: SizedBox(
                                   height: 360,
                                   width: fullWidth,
@@ -92,14 +92,14 @@ class _ShelfState extends State<Shelf> {
                                       ),
                                       Container(
                                         alignment: Alignment.center,
-                                        margin:
-                                            EdgeInsets.symmetric(vertical: 15),
-                                        child: Text("Edit Item",
+                                        margin: const EdgeInsets.symmetric(
+                                            vertical: 15),
+                                        child: const Text("Edit Item",
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w600)),
                                       ),
-                                      Text("Name",
+                                      const Text("Name",
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500)),
@@ -128,7 +128,7 @@ class _ShelfState extends State<Shelf> {
                                           ),
                                         ),
                                       ),
-                                      Text("Description (Optional)",
+                                      const Text("Description (Optional)",
                                           style: TextStyle(
                                               fontSize: 14,
                                               fontWeight: FontWeight.w500)),
@@ -159,7 +159,7 @@ class _ShelfState extends State<Shelf> {
                                       ),
                                       Row(
                                         children: [
-                                          Container(
+                                          SizedBox(
                                             width: 100,
                                             height: 50,
                                             child: SpinBox(
@@ -178,9 +178,9 @@ class _ShelfState extends State<Shelf> {
                                                   labelText: 'Qty'),
                                             ),
                                           ),
-                                          Spacer(),
+                                          const Spacer(),
                                           Container(
-                                            margin: EdgeInsets.symmetric(
+                                            margin: const EdgeInsets.symmetric(
                                                 horizontal: 10),
                                             child: ElevatedButton.icon(
                                               onPressed: () async {
@@ -198,18 +198,24 @@ class _ShelfState extends State<Shelf> {
                                                     .toString();
 
                                                 //Validate empty
-                                                if (_itemNameCtrl.text.isEmpty) {
-                                                  itemName = _shelfList[index].item_name;
+                                                if (_itemNameCtrl
+                                                    .text.isEmpty) {
+                                                  itemName = _shelfList[index]
+                                                      .item_name;
                                                 } else {
                                                   itemName = _itemNameCtrl.text;
                                                 }
-                                                if (_itemDescriptionCtrl.text.isEmpty) {
-                                                  itemDesc = _shelfList[index].item_description;
+                                                if (_itemDescriptionCtrl
+                                                    .text.isEmpty) {
+                                                  itemDesc = _shelfList[index]
+                                                      .item_description;
                                                 } else {
-                                                  itemDesc = _itemDescriptionCtrl.text;
+                                                  itemDesc =
+                                                      _itemDescriptionCtrl.text;
                                                 }
                                                 if (_itemQtyCtrl == null) {
-                                                  itemQty = _shelfList[index].item_qty;
+                                                  itemQty = _shelfList[index]
+                                                      .item_qty;
                                                 } else {
                                                   itemQty = _itemQtyCtrl;
                                                 }
@@ -220,8 +226,9 @@ class _ShelfState extends State<Shelf> {
 
                                                 Navigator.pop(context);
                                               },
-                                              icon: Icon(Icons.save, size: 18),
-                                              label: Text("Save Changes"),
+                                              icon: const Icon(Icons.save,
+                                                  size: 18),
+                                              label: const Text("Save Changes"),
                                               style: ElevatedButton.styleFrom(
                                                 primary: Colors
                                                     .green, // Background color
@@ -240,9 +247,9 @@ class _ShelfState extends State<Shelf> {
                       ],
                     ),
                     Text(_shelfList[index].item_description,
-                        style: TextStyle(fontSize: 13)),
+                        style: const TextStyle(fontSize: 13)),
                     Text(getDate(_shelfList[index].created_at),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Color.fromARGB(255, 125, 125, 125),
                             fontStyle: FontStyle.italic))
@@ -268,10 +275,10 @@ class _ShelfState extends State<Shelf> {
                         onPressed: () => showDialog<String>(
                           context: context,
                           builder: (BuildContext context) => AlertDialog(
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
-                            contentPadding: EdgeInsets.all(15),
+                            contentPadding: const EdgeInsets.all(15),
                             content: SizedBox(
                               height: 360,
                               width: fullWidth,
@@ -292,13 +299,14 @@ class _ShelfState extends State<Shelf> {
                                   ),
                                   Container(
                                     alignment: Alignment.center,
-                                    margin: EdgeInsets.symmetric(vertical: 15),
-                                    child: Text("Add Item",
+                                    margin: const EdgeInsets.symmetric(
+                                        vertical: 15),
+                                    child: const Text("Add Item",
                                         style: TextStyle(
                                             fontSize: 18,
                                             fontWeight: FontWeight.w600)),
                                   ),
-                                  Text("Name",
+                                  const Text("Name",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500)),
@@ -310,10 +318,10 @@ class _ShelfState extends State<Shelf> {
                                       controller: _itemNameCtrl,
                                       enableSuggestions: false,
                                       autocorrect: false,
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.only(
                                             top: 5, left: 10, right: 10),
-                                        border: const OutlineInputBorder(
+                                        border: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color.fromARGB(
                                                   255, 205, 205, 205),
@@ -322,7 +330,7 @@ class _ShelfState extends State<Shelf> {
                                       ),
                                     ),
                                   ),
-                                  Text("Description (Optional)",
+                                  const Text("Description (Optional)",
                                       style: TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500)),
@@ -334,10 +342,10 @@ class _ShelfState extends State<Shelf> {
                                       controller: _itemDescriptionCtrl,
                                       enableSuggestions: false,
                                       autocorrect: false,
-                                      decoration: InputDecoration(
-                                        contentPadding: const EdgeInsets.only(
+                                      decoration: const InputDecoration(
+                                        contentPadding: EdgeInsets.only(
                                             top: 5, left: 10, right: 10),
-                                        border: const OutlineInputBorder(
+                                        border: OutlineInputBorder(
                                           borderSide: BorderSide(
                                               color: Color.fromARGB(
                                                   255, 205, 205, 205),
@@ -348,7 +356,7 @@ class _ShelfState extends State<Shelf> {
                                   ),
                                   Row(
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width: 100,
                                         height: 50,
                                         child: SpinBox(
@@ -365,9 +373,9 @@ class _ShelfState extends State<Shelf> {
                                               labelText: 'Qty'),
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Container(
-                                        margin: EdgeInsets.symmetric(
+                                        margin: const EdgeInsets.symmetric(
                                             horizontal: 10),
                                         child: ElevatedButton.icon(
                                           onPressed: () async {
@@ -386,8 +394,8 @@ class _ShelfState extends State<Shelf> {
 
                                             Navigator.pop(context);
                                           },
-                                          icon: Icon(Icons.add, size: 18),
-                                          label: Text("Create List"),
+                                          icon: const Icon(Icons.add, size: 18),
+                                          label: const Text("Create List"),
                                           style: ElevatedButton.styleFrom(
                                             primary: Colors
                                                 .green, // Background color

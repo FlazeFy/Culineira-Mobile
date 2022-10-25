@@ -70,7 +70,7 @@ class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     double fullHeight = MediaQuery.of(context).size.height;
-    double fullWidth = MediaQuery.of(context).size.width;
+    // double fullWidth = MediaQuery.of(context).size.width;
 
     getDate(DateTime datetime) {
       var formattedDate =
@@ -81,7 +81,7 @@ class _CommentPageState extends State<CommentPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Comment"),
-        actions: [],
+        actions: const [],
         backgroundColor: primaryColor,
       ),
       body: SizedBox(
@@ -137,7 +137,8 @@ class _CommentPageState extends State<CommentPage> {
                 )),
             Flexible(
                 child: ListView.builder(
-                    padding: EdgeInsets.only(left: 15, right: 15, bottom: 15),
+                    padding:
+                        const EdgeInsets.only(left: 15, right: 15, bottom: 15),
                     itemCount: _commentList.length,
                     itemBuilder: (context, index) {
                       //Store property.
@@ -161,7 +162,8 @@ class _CommentPageState extends State<CommentPage> {
                           alignment: position,
                           backGroundColor: Colors.white,
                           child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 5),
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               constraints: BoxConstraints(
                                 maxWidth:
                                     MediaQuery.of(context).size.width * 0.7,
@@ -192,7 +194,7 @@ class _CommentPageState extends State<CommentPage> {
                                     child: Text(
                                       _commentList[index].comment_body,
                                       style: const TextStyle(
-                                          color: const Color(0xFF414141)),
+                                          color: Color(0xFF414141)),
                                     ),
                                   )
                                 ],
@@ -279,7 +281,7 @@ class _CommentPageState extends State<CommentPage> {
                     Expanded(
                       child: TextField(
                         controller: _commentBodyCtrl,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                             contentPadding: EdgeInsets.all(5),
                             hintText: "Type your comment",
                             hintStyle: TextStyle(color: Colors.grey),
