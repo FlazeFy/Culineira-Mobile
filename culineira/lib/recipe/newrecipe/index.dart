@@ -1,3 +1,7 @@
+import 'dart:ffi';
+import 'package:culineira/main.dart';
+import 'package:intl/intl.dart';
+import 'package:culineira/services/connect.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter_spinbox/material.dart';
@@ -12,9 +16,17 @@ class CreateInstantRecipePage extends StatefulWidget {
 
 class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
   //Initial variable
-  String selectedRType;
-  String selectedRLevel;
-  String selectedRVisibility;
+  String selectedRType = "Main Course";
+  String selectedRLevel = "Beginner";
+  String selectedRVisibility = "Public";
+  int _recipeTime = 15;
+  int _recipeCal = 75;
+
+  //Text field contoller.
+  final _recipeNameCtrl = TextEditingController();
+  final _recipeCountryCtrl = TextEditingController();
+  final _recipeDescCtrl = TextEditingController();
+  final _recipeMainIngCtrl = TextEditingController();
 
   List<String> itemRType = ['Main Course', 'Appetizer', 'Desserts'];
   List<String> itemRLevel = ['Beginner', 'Intermediate', 'Expert'];
@@ -123,9 +135,10 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w500))),
-                                const SizedBox(
+                                SizedBox(
                                   width: 160,
                                   child: TextField(
+                                    controller: _recipeCountryCtrl,
                                     decoration: InputDecoration(
                                       contentPadding: EdgeInsets.only(
                                           top: 3, left: 10, right: 10),
@@ -150,7 +163,8 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                                 fontSize: 14, fontWeight: FontWeight.w500))),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      child: const TextField(
+                      child: TextField(
+                        controller: _recipeNameCtrl,
                         decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.only(top: 3, left: 10, right: 10),
@@ -170,7 +184,8 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                                 fontSize: 14, fontWeight: FontWeight.w500))),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      child: const TextField(
+                      child: TextField(
+                        controller: _recipeDescCtrl,
                         decoration: InputDecoration(
                           contentPadding:
                               EdgeInsets.only(top: 3, left: 10, right: 10),
@@ -189,7 +204,8 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                                 fontSize: 14, fontWeight: FontWeight.w500))),
                     Container(
                       margin: const EdgeInsets.only(bottom: 10),
-                      child: const TextField(
+                      child: TextField(
+                        controller: _recipeMainIngCtrl,
                         decoration: InputDecoration(
                             contentPadding:
                                 EdgeInsets.only(top: 3, left: 10, right: 10),
@@ -214,13 +230,14 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                             width: 140,
                             height: 50,
                             child: SpinBox(
-                              min: 1, max: 480,
+                              min: 1,
+                              max: 480,
                               value: 1,
                               spacing: 1,
                               textStyle: const TextStyle(
                                 fontSize: 16.0,
                               ),
-                              // onChanged: (value) =>
+                              onChanged: (value) => _recipeTime = value.toInt(),
                               decoration:
                                   const InputDecoration(labelText: 'Minutes'),
                             ),
@@ -230,13 +247,14 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                             width: 160,
                             height: 50,
                             child: SpinBox(
-                              min: 1, max: 1200,
+                              min: 1,
+                              max: 1200,
                               value: 1,
                               spacing: 1,
                               textStyle: const TextStyle(
                                 fontSize: 16.0,
                               ),
-                              // onChanged: (value) =>
+                              onChanged: (value) => _recipeCal = value.toInt(),
                               decoration:
                                   const InputDecoration(labelText: 'Calorie'),
                             ),
@@ -354,7 +372,28 @@ class _CreateInstantRecipePageState extends State<CreateInstantRecipePage> {
                     Align(
                       alignment: Alignment.centerRight,
                       child: ElevatedButton.icon(
-                        onPressed: () async {},
+                        onPressed: () async {
+                          //Insert recipe
+                          var connection = await setDatabase();
+                          var date = DateFormat("yyyy-MM-dd h:m:s")
+                              .format(DateTime.now())
+                              .toString();
+
+                          //Validate empty
+                          if ((_recipeNameCtrl.text.isNotEmpty) &&
+                              (_recipeDescCtrl.text.isNotEmpty) &&
+                              (_recipeMainIngCtrl.text.isNotEmpty) &&
+                              (_recipeCountryCtrl.text.isNotEmpty)) {
+                            await connection.execute(
+                                "INSERT INTO public.recipes( "
+                                "user_id, recipe_name, recipe_calorie, recipe_desc, recipe_country, recipe_type, recipe_time_spend, recipe_main_ing, recipe_level, created_at, updated_at, recipe_visibility, recipe_url, recipe_video) "
+                                "VALUES (${passIdUser}, '${_recipeNameCtrl.text}', ${_recipeCal}, '${_recipeDescCtrl.text}', '${_recipeCountryCtrl.text}', '${selectedRType}', ${_recipeTime}, '${_recipeMainIngCtrl.text}', '${selectedRLevel}', '${date}', '${date}', '${selectedRVisibility}', 'null', 'null');");
+
+                            Navigator.pop(context);
+                          } else {
+                            //Do something...
+                          }
+                        },
                         icon: const Icon(Icons.add, size: 20),
                         label: const Text("Post"),
                         style: ElevatedButton.styleFrom(
