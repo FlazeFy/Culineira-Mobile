@@ -9,11 +9,13 @@ class listModel {
 
   //For relationw w/ recipe.
   int list_recipe_rel;
+  int id_rel;
 
   listMap() {
     var mapping = Map<String, dynamic>();
 
     mapping['id'] = id;
+    mapping['id_rel'] = id_rel;
     mapping['users_id'] = users_id;
     mapping['list_name'] = list_name;
     mapping['iist_status'] = list_status;

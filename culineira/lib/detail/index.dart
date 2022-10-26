@@ -178,28 +178,30 @@ class _DetailPageState extends State<DetailPage> {
 
     List<Map<String, Map<String, dynamic>>> relations =
         await connection.mappedResultsQuery("SELECT * FROM public.list_rel "
-            "WHERE recipe_id = ${passIdRecipe} ");
+            "WHERE recipe_id = ${passIdRecipe} "
+            "GROUP BY list_id, id");
 
     results.forEach((results) {
+      int i = 0;
+      int id_rel;
+
+      //Check recipe in list.
       relations.forEach((relations) {
-        //Check recipe in list.
-        int i = 0;
         if (results['list']['id'] == relations['list_rel']['list_id']) {
           i++;
+          id_rel = relations['list_rel']['id'];
         }
+      });
 
-        setState(() {
-          var listModels = listModel();
+      setState(() {
+        var listModels = listModel();
 
-          listModels.id = results['list']['id'];
-          listModels.list_recipe_rel = i;
-          listModels.list_name = results['list']['list_name'];
-          listModels.list_status = results['list']['list_status'];
-          listModels.list_description = results['list']['list_description'];
-          listModels.updated_at = results['list']['updated_at'];
+        listModels.id = results['list']['id'];
+        listModels.id_rel = id_rel;
+        listModels.list_recipe_rel = i;
+        listModels.list_name = results['list']['list_name'];
 
-          _listRecipeList.add(listModels);
-        });
+        _listRecipeList.add(listModels);
       });
     });
   }
@@ -284,8 +286,17 @@ class _DetailPageState extends State<DetailPage> {
                           itemBuilder: (context, index) {
                             if (_listRecipeList[index].list_recipe_rel == 1) {
                               return TextButton.icon(
-                                onPressed: () {
-                                  // Respond to button press
+                                onPressed: () async {
+                                  //Delete recipe from list
+                                  var connection = await setDatabase();
+
+                                  await connection.execute(
+                                      "DELETE FROM public.list_rel "
+                                      "WHERE id = ${_listRecipeList[index].id_rel};");
+
+                                  //Success message...
+
+                                  Navigator.pop(context);
                                 },
                                 icon: Icon(Icons.check,
                                     size: 24, color: Colors.green),
@@ -299,8 +310,21 @@ class _DetailPageState extends State<DetailPage> {
                               );
                             } else {
                               return TextButton(
-                                onPressed: () {
-                                  // Respond to button press
+                                onPressed: () async {
+                                  //Add recipe to list
+                                  var connection = await setDatabase();
+                                  var date = DateFormat("yyyy-MM-dd h:m:s")
+                                      .format(DateTime.now())
+                                      .toString();
+
+                                  await connection.execute(
+                                      "INSERT INTO public.list_rel( "
+                                      "list_id, recipe_id, created_at, updated_at) "
+                                      "VALUES (${_listRecipeList[index].id}, ${passIdRecipe}, '${date}', '${date}');");
+
+                                  //Success message...
+
+                                  Navigator.pop(context);
                                 },
                                 child: Align(
                                     alignment: Alignment.centerLeft,
