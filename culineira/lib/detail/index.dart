@@ -1,5 +1,6 @@
 import 'package:culineira/database/model/ingredient.dart';
 import 'package:culineira/database/model/likes.dart';
+import 'package:culineira/database/model/list.dart';
 import 'package:culineira/database/model/recipe.dart';
 import 'package:culineira/database/model/step.dart';
 import 'package:culineira/detail/Ingredients.dart';
@@ -23,6 +24,8 @@ class _DetailPageState extends State<DetailPage> {
   List<stepsModel> _stepsList = <stepsModel>[];
   List<likesModel> _likeList = <likesModel>[];
   List<likesModel> _mylike = <likesModel>[];
+  List<listModel> _listRecipeList = <listModel>[];
+  List<listModel> _listRelList = <listModel>[];
   int myLikeId = 0;
 
   //Controller.
@@ -163,6 +166,44 @@ class _DetailPageState extends State<DetailPage> {
     });
   }
 
+  Future getListRecipe() async {
+    var connection = await setDatabase();
+    _listRecipeList = <listModel>[];
+    _listRelList = <listModel>[];
+
+    List<Map<String, Map<String, dynamic>>> results =
+        await connection.mappedResultsQuery("SELECT * FROM public.list "
+            "WHERE user_id = ${passIdUser} "
+            "ORDER BY updated_at desc");
+
+    List<Map<String, Map<String, dynamic>>> relations =
+        await connection.mappedResultsQuery("SELECT * FROM public.list_rel "
+            "WHERE recipe_id = ${passIdRecipe} ");
+
+    results.forEach((results) {
+      relations.forEach((relations) {
+        //Check recipe in list.
+        int i = 0;
+        if (results['list']['id'] == relations['list_rel']['list_id']) {
+          i++;
+        }
+
+        setState(() {
+          var listModels = listModel();
+
+          listModels.id = results['list']['id'];
+          listModels.list_recipe_rel = i;
+          listModels.list_name = results['list']['list_name'];
+          listModels.list_status = results['list']['list_status'];
+          listModels.list_description = results['list']['list_description'];
+          listModels.updated_at = results['list']['updated_at'];
+
+          _listRecipeList.add(listModels);
+        });
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -171,12 +212,13 @@ class _DetailPageState extends State<DetailPage> {
     getSteps();
     getLikes();
     getMyLikes();
+    getListRecipe();
   }
 
   @override
   Widget build(BuildContext context) {
     double fullHeight = MediaQuery.of(context).size.height;
-    // double fullWidth = MediaQuery.of(context).size.width;
+    double fullWidth = MediaQuery.of(context).size.width;
 
     getDate(DateTime datetime) {
       var formattedDate =
@@ -227,11 +269,50 @@ class _DetailPageState extends State<DetailPage> {
             onPressed: () {},
           ),
           IconButton(
-            icon: const Icon(Icons
-                .copy), //Should be paperclip icon for save to cook list button
-            onPressed: () {
-              //
-            },
+            icon: const Icon(Icons.add_task),
+            onPressed: () => showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                  insetPadding: EdgeInsets.symmetric(horizontal: 15),
+                  title: Text('Add To List ${_listRecipeList.length}'),
+                  content: Container(
+                      height: fullHeight * 0.5,
+                      width: fullWidth,
+                      child: ListView.builder(
+                          padding: const EdgeInsets.only(top: 20, bottom: 60),
+                          itemCount: _listRecipeList.length,
+                          itemBuilder: (context, index) {
+                            if (_listRecipeList[index].list_recipe_rel == 1) {
+                              return TextButton.icon(
+                                onPressed: () {
+                                  // Respond to button press
+                                },
+                                icon: Icon(Icons.check,
+                                    size: 24, color: Colors.green),
+                                label: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                        _listRecipeList[index].list_name,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black))),
+                              );
+                            } else {
+                              return TextButton(
+                                onPressed: () {
+                                  // Respond to button press
+                                },
+                                child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                        _listRecipeList[index].list_name,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black))),
+                              );
+                            }
+                          }))),
+            ),
           ),
           IconButton(
             icon: const Icon(Icons.print),
